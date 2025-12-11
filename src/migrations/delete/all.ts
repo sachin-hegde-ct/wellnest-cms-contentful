@@ -1,30 +1,29 @@
-import { deleteContentType } from "../../utils/delete-content-type";
+import { deleteImageWrapperContentType } from "./image-wrapper";
+import { deleteSocialLinksContentType } from "./social-links";
+import { deleteCoachContentType } from "./coach";
 
 /**
- * Defines the order of deletion.
- * Independent content types must be deleted first,
- * followed by types that reference them.
+ * Order matters:
+ * Delete dependent types AFTER independent ones
  */
-const CONTENT_TYPES_TO_DELETE = ["imageWrapper", "socialLinks", "coach"];
+const DELETE_IN_ORDER = [
+  deleteImageWrapperContentType,
+  deleteSocialLinksContentType,
+  deleteCoachContentType,
+];
 
-const run = async () => {
-  console.log(
-    `\n========== 🗑️  DELETE ALL CONTENT TYPES ==========\n`
-  );
+export const runDeleteAll = async () => {
+  console.log(`\n========== 🗑️  DELETE ALL CONTENT TYPES ==========\n`);
 
-  for (const type of CONTENT_TYPES_TO_DELETE) {
-    try {
-      await deleteContentType(type);
-    } catch (err) {
-      console.log(
-        `❌ Unexpected failure deleting '${type}'. Aborting delete-all.\n`
-      );
-      process.exit(1);
-    }
+  for (const fn of DELETE_IN_ORDER) {
+    await fn();
   }
 
   console.log(`\n🎉 All content types deleted successfully.\n`);
   console.log(`============================================================\n`);
 };
 
-run();
+// Auto-run only when called directly from terminal
+if (import.meta.url === `file://${process.argv[1]}`) {
+  runDeleteAll();
+}

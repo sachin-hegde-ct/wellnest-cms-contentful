@@ -1,11 +1,11 @@
 import { runMigration } from "contentful-migration";
-import contentfulManagement, { Environment } from "contentful-management";
 import {
   CONTENTFUL_ENVIRONMENT,
   CONTENTFUL_MANAGEMENT_TOKEN,
   CONTENTFUL_SPACE_ID,
 } from "./env.js";
 import { prettyError } from "./formatter.js";
+import { getContentful } from "./contentful.js";
 
 /**
  * Deletes all entries of a content type, then deletes the content type schema.
@@ -19,19 +19,14 @@ export const deleteContentType = async (
   );
 
   try {
-    const client = contentfulManagement.createClient({
-      accessToken: CONTENTFUL_MANAGEMENT_TOKEN,
-    });
-
-    const space = await client.getSpace(CONTENTFUL_SPACE_ID);
-    const env: Environment = await space.getEnvironment(CONTENTFUL_ENVIRONMENT);
+    const { contentfulEnvironment } = await getContentful();
 
     //
     // 1. FETCH ENTRIES
     //
     let entries;
     try {
-      entries = await env.getEntries({
+      entries = await contentfulEnvironment.getEntries({
         content_type: contentTypeId,
         limit: 1000,
       });

@@ -1,5 +1,12 @@
-import { deleteContentType } from "../../utils/delete-content-type.js";
+import { deleteContentType } from "../../scripts/delete-content-type";
+import { CONTENT_TYPES } from "../../constants/content-types";
 
-(async () => {
-  await deleteContentType("socialLinks");
-})();
+export const deleteSocialLinksContentType = async () => {
+  await deleteContentType(CONTENT_TYPES.SOCIAL_LINKS);
+};
+
+if (import.meta.url === `file://${process.argv[1]}`) {
+  (async () => {
+    await deleteSocialLinksContentType();
+  })();
+}

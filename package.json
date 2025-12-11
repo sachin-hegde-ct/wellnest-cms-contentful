@@ -8,7 +8,15 @@
     "delete:content-type:all": "tsx src/migrations/delete/all.ts",
     "delete:content-type:image-wrapper": "tsx src/migrations/delete/image-wrapper.ts",
     "delete:content-type:social-links": "tsx src/migrations/delete/social-links.ts",
-    "delete:content-type:coach": "tsx src/migrations/delete/coach.ts"
+    "delete:content-type:coach": "tsx src/migrations/delete/coach.ts",
+
+    "create:content-type:image-wrapper": "tsx src/migrations/create/image-wrapper.ts",
+    "create:content-type:social-links": "tsx src/migrations/create/social-links.ts",
+    "create:content-type:coach": "tsx src/migrations/create/coach.ts",
+    "create:content-type:all": "tsx src/migrations/create/all.ts",
+
+    "import:entry:coaches": "tsx src/migrations/import/coaches.ts",
+    "cleanup:entry:coaches": "tsx src/migrations/cleanup/coaches.ts"
   },
   "keywords": [],
   "author": "",
