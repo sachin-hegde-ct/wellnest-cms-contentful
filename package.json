@@ -1,0 +1,27 @@
+{
+  "name": "wellnest-cms-contentful",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "delete:content-type:all": "tsx src/migrations/delete/all.ts",
+    "delete:content-type:image-wrapper": "tsx src/migrations/delete/image-wrapper.ts",
+    "delete:content-type:social-links": "tsx src/migrations/delete/social-links.ts",
+    "delete:content-type:coach": "tsx src/migrations/delete/coach.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "contentful": "^11.10.0",
+    "contentful-management": "^11.65.0",
+    "contentful-migration": "^4.31.5",
+    "dotenv": "^17.2.3"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.0",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  }
+}
