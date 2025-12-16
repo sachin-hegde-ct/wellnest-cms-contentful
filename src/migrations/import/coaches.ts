@@ -3,7 +3,10 @@ import { importCoaches } from "../../utils/coach/import-coaches";
 import { uploadCoachImages } from "../../utils/coach/upload-coach-images";
 
 export const runCoachDataImport = async () => {
-  console.log(`\n========== 🏗️  IMPORT COACH DATA ==========\n`);
+  console.log(
+    `\n---------------------------------------------------------\n\n` +
+      `🚀 Operation: Import, Entry: Coach\n`
+  );
 
   try {
     console.log(
@@ -15,7 +18,7 @@ export const runCoachDataImport = async () => {
     );
   } catch (err) {
     console.error(
-      `❌ Uploading images & creating ImageWrapper FAILED: ${
+      `\n   ❌ Uploading images & creating ImageWrapper FAILED: ${
         (err as Error).message
       }`
     );
@@ -28,7 +31,7 @@ export const runCoachDataImport = async () => {
     console.log(`\n   ✅ Creating SocialLinks entries COMPLETED.\n`);
   } catch (err) {
     console.error(
-      `❌ Creating SocialLinks entries FAILED: ${(err as Error).message}`
+      `\n   ❌ Creating SocialLinks entries FAILED: ${(err as Error).message}`
     );
     process.exit(1);
   }
@@ -39,13 +42,15 @@ export const runCoachDataImport = async () => {
     console.log(`\n   ✅ Creating Coach entries COMPLETED.\n`);
   } catch (err) {
     console.error(
-      `\n ❌ Creating Coach entries FAILED: ${(err as Error).message}`
+      `\n   ❌ Creating Coach entries FAILED: ${(err as Error).message}`
     );
     process.exit(1);
   }
 
-  console.log(`\n🎉 ALL COACH DATA IMPORTED SUCCESSFULLY\n`);
-  console.log(`===========================================================\n`);
+  console.log(
+    `\n🎉 Coach entries imported successfully.\n` +
+      `\n---------------------------------------------------------\n`
+  );
 };
 
 // Auto-run when called from CLI:

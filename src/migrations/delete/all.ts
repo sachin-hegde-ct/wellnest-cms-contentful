@@ -1,26 +1,34 @@
 import { deleteImageWrapperContentType } from "./image-wrapper";
 import { deleteSocialLinksContentType } from "./social-links";
 import { deleteCoachContentType } from "./coach";
+import { deleteArticleContentType } from "./article";
+import { deleteProgramContentType } from "./program";
+import { deleteTestimonialContentType } from "./testimonial";
+import { deleteProgramSessionContentType } from "./program-session";
 
 /**
  * Order matters:
  * Delete dependent types AFTER independent ones
  */
 const DELETE_IN_ORDER = [
-  deleteImageWrapperContentType,
-  deleteSocialLinksContentType,
+  deleteTestimonialContentType,
+  deleteProgramContentType,
+  deleteArticleContentType,
   deleteCoachContentType,
+  deleteProgramSessionContentType,
+  deleteSocialLinksContentType,
+  deleteImageWrapperContentType,
 ];
 
 export const runDeleteAll = async () => {
-  console.log(`\n========== 🗑️  DELETE ALL CONTENT TYPES ==========\n`);
+  console.log(`\n============== 🗑️  DELETE ALL CONTENT TYPES ==============\n`);
 
   for (const fn of DELETE_IN_ORDER) {
     await fn();
   }
 
   console.log(`\n🎉 All content types deleted successfully.\n`);
-  console.log(`============================================================\n`);
+  console.log(`=============================================================\n`);
 };
 
 // Auto-run only when called directly from terminal

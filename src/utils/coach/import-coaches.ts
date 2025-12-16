@@ -30,9 +30,8 @@ export async function importCoaches() {
       linkType: "Entry",
     };
 
-
     console.log(
-      `   👤 [${index + 1}/${final.length}] Created Coach entry: ${coach.slug}`
+      `   👤 [${index + 1}/${final.length}] Created Coach entry: ${coach.name}`
     );
   }
 

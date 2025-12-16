@@ -1,65 +1,65 @@
 import fs from "fs/promises";
 import { deleteEntryById } from "../../scripts/delete-entry";
 import { deleteAssetById } from "../../scripts/delete-asset";
-import { COACH_DATA_DIR } from "../../constants/data-dir";
+import { ARTICLE_DATA_DIR } from "../../constants/data-dir";
 
-export const cleanupCoaches = async () => {
+export const cleanupArticles = async () => {
   console.log(
     `\n---------------------------------------------------------\n\n` +
-      `🧤 Operation: Cleanup, Entry: Coach\n`
+      `🧤 Operation: Cleanup, Entry: Article\n`
   );
 
-  const finalJsonPath = COACH_DATA_DIR.FINAL;
-  const imagesMapPath = COACH_DATA_DIR.IMAGES_MAP;
-  const socialLinksMapPath = COACH_DATA_DIR.SOCIAL_LINKS_MAP;
+  const finalJsonPath = ARTICLE_DATA_DIR.FINAL;
+  const imagesMapPath = ARTICLE_DATA_DIR.IMAGES_MAP;
+  const authorsMapPath = ARTICLE_DATA_DIR.AUTHORS_MAP;
 
-  let finalCoaches: any[] = [];
+  let finalArticles: any[] = [];
   let imagesMap: Record<string, any> = {};
-  let socialMap: Record<string, any> = {};
+  let authorsMap: Record<string, any> = {};
 
   // ---------- Read JSON files safely ----------
   try {
-    finalCoaches = JSON.parse(await fs.readFile(finalJsonPath, "utf8"));
+    finalArticles = JSON.parse(await fs.readFile(finalJsonPath, "utf8"));
   } catch {
-    console.log(` ⚠️  No ${finalJsonPath} found. Skipping entry cleanup.\n`);
+    console.log(`   ⚠️  No ${finalJsonPath} found. Skipping entry cleanup.\n`);
   }
 
   try {
     imagesMap = JSON.parse(await fs.readFile(imagesMapPath, "utf8"));
   } catch {
-    console.log(` ⚠️  No ${imagesMapPath} found. Skipping asset cleanup.\n`);
+    console.log(`   ⚠️  No ${imagesMapPath} found. Skipping asset cleanup.\n`);
   }
 
   try {
-    socialMap = JSON.parse(await fs.readFile(socialLinksMapPath, "utf8"));
+    authorsMap = JSON.parse(await fs.readFile(authorsMapPath, "utf8"));
   } catch {
     console.log(
-      ` ⚠️  No ${socialLinksMapPath} found. Skipping SocialLinks cleanup.\n`
+      `   ⚠️  No ${authorsMapPath} found. Skipping authors map cleanup.\n`
     );
   }
 
   // ---------- Delete all related content ----------
-  for (const [index, coach] of finalCoaches.entries()) {
-    const slug = coach.slug;
+  for (const [index, article] of finalArticles.entries()) {
+    const slug = article.slug;
 
     console.log(
-      `\n [${index + 1}/${finalCoaches.length}]🧹 Removing coach: ${
-        coach.name
+      `\n [${index + 1}/${finalArticles.length}] 🧹 Removing Article: ${
+        article.title
       }\n`
     );
 
     const imageInfo = imagesMap?.[slug];
-    const socialLinksId = socialMap?.[slug];
-    const coachEntryId = coach?.sys?.id;
+    const authorsId = authorsMap?.[slug];
+    const articleEntryId = article?.sys?.id;
 
-    // 1. Delete Coach entry
-    if (coachEntryId) {
-      await deleteEntryById(coachEntryId);
+    // 1. Delete Article entry
+    if (articleEntryId) {
+      await deleteEntryById(articleEntryId);
     }
 
-    // 2. Delete SocialLinks entry
-    if (socialLinksId) {
-      await deleteEntryById(socialLinksId);
+    // 2. Delete Authors entry
+    if (authorsId) {
+      // await deleteEntryById(authorsId);
     }
 
     // 3. Delete ImageWrapper entry
@@ -88,15 +88,15 @@ export const cleanupCoaches = async () => {
 
   await safeDelete(finalJsonPath);
   await safeDelete(imagesMapPath);
-  await safeDelete(socialLinksMapPath);
+  await safeDelete(authorsMapPath);
 
   console.log(
-    `\n🎉 Coach entries cleaned up successfully.\n` +
+    `\n\n🎉 Article entries cleaned up successfully.\n` +
       `\n---------------------------------------------------------\n`
   );
 };
 
 // Auto-run when executed directly
 if (import.meta.url === `file://${process.argv[1]}`) {
-  cleanupCoaches();
+  cleanupArticles();
 }

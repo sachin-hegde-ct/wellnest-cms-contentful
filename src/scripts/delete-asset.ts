@@ -13,9 +13,9 @@ export async function deleteAssetById(id: string) {
     console.log(`     ✅ Deleted asset: ${id}`);
   } catch (err: any) {
     if (err?.name === "NotFound") {
-      console.log(`   ⚠️ Skipped non-existing asset: ${id}`);
+      console.log(`     ⚠️ Skipped non-existing asset: ${id}`);
       return;
     }
-    console.log(`   ❌ Failed to delete asset ${id}: ${err.message}`);
+    console.log(`     ❌ Failed to delete asset ${id}: ${err.message}`);
   }
 }

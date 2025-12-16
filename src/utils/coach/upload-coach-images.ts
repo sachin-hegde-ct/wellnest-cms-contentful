@@ -10,43 +10,51 @@ export async function uploadCoachImages() {
   const output = [...input];
   const imagesMap: Record<string, any> = {};
 
-  for (const coach of output) {
-    console.log(`   ⬇️  Downloading image for ${coach.name}...`);
+  const totalCoaches = output.length;
 
-    const res = await fetch(
-      "https://randomuser.me/api/?seed=picture&inc=picture"
-    );
-    const json = await res.json();
-    const imgUrl = json.results[0].picture.large;
+  const response = await fetch(
+    `https://randomuser.me/api/?seed=picture&inc=picture&results=${totalCoaches}`
+  );
+
+  const json = await response.json();
+  const pictures = json.results.map((r: any) => r.picture.large);
+
+  for (let i = 0; i < output.length; i++) {
+    const coach = output[i];
+    const imgUrl = pictures[i];
+
+    console.log(`\n   [${i + 1}/${output.length}] Coach: ${coach.name}\n`);
+
+    console.log(`     ⬇️  Downloading image...\n`);
 
     const imgResp = await fetch(imgUrl);
     const buffer = Buffer.from(await imgResp.arrayBuffer());
     const fileName = `${coach.slug}.jpg`;
 
-    console.log(`   ⬆️  Uploading asset for ${coach.name}`);
+    console.log(`     ⬆️  Uploading asset to contentful...\n`);
+
     const asset = await uploadBufferAsAsset(
       buffer,
       fileName,
       "image/jpeg",
-      coach.name
+      `Coach Image: ${coach.name}`
     );
 
+    console.log(`     🖼️  Creating ImageWrapper entry...\n`);
     const imageWrapper = await createEntry(CONTENT_TYPES.IMAGE_WRAPPER, {
-      title: { "en-US": `Profile Image: ${coach.name} `},
+      title: { "en-US": `Profile Image: ${coach.name}` },
       media: {
         "en-US": { sys: { type: "Link", linkType: "Asset", id: asset.sys.id } },
       },
       altText: { "en-US": coach.name },
     });
-    console.log(`   🖼️  Created ImageWrapper entry\n`);
 
-    // update mapping
     imagesMap[coach.slug] = {
       assetId: asset.sys.id,
       imageWrapperId: imageWrapper.sys.id,
     };
 
-    // attach to final coach JSON
+    // Attach to final coach JSON
     coach.profilePicture = {
       sys: {
         type: "Link",
@@ -56,15 +64,17 @@ export async function uploadCoachImages() {
     };
   }
 
+  // ---------------------------------------------------------
+  // WRITE OUTPUT FILES
+  // ---------------------------------------------------------
   await fs.writeFile(COACH_DATA_DIR.FINAL, JSON.stringify(output, null, 2));
   await fs.writeFile(
     COACH_DATA_DIR.IMAGES_MAP,
     JSON.stringify(imagesMap, null, 2)
   );
-
-  console.log(`   📷 Image upload complete.`);
 }
 
+// AUTO-RUN WHEN EXECUTED DIRECTLY
 if (import.meta.url === `file://${process.argv[1]}`) {
   uploadCoachImages();
 }

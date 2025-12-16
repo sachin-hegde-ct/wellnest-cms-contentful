@@ -13,7 +13,8 @@ export const imageWrapperContentTypeMigration: MigrationFunction = (
   type.createField("title").name("Title").type("Symbol").required(true);
 
   type.createField("description").name("Description").type("Text");
-
+  type.changeFieldControl("description", "builtin", "multipleLine");
+  
   type
     .createField("media")
     .name("Media")
