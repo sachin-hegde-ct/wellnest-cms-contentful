@@ -3,13 +3,26 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "type": "module",
-  "scripts": {},
+  "type": "commonjs",
+  "scripts": {
+    "migrate": "tsx src/framework/cli/index.ts",
+    "create:entry:testimonial": "tsx src/project/migrations/create/testimonial.ts",
+    "delete:entry:testimonial": "tsx src/project/migrations/delete/testimonial.ts",
+    "cleanup:entry:testimonials": "tsx src/project/migrations/cleanup/testimonials.ts",
+    "purge:entry:testimonials": "tsx src/project/migrations/purge/testimonials.ts"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@inquirer/core": "^11.1.0",
+    "@inquirer/prompts": "^8.1.0",
+    "contentful-management": "^11.66.0",
+    "contentful-migration": "^4.31.5",
+    "dotenv": "^17.2.3"
+  },
   "devDependencies": {
-    "@types/node": "^25.0.0",
+    "@types/node": "^25.0.3",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
