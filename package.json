@@ -4,48 +4,10 @@
   "description": "",
   "main": "index.js",
   "type": "module",
-  "scripts": {
-    "migrate:all": "tsx src/migrations/all.ts",
-    
-    "delete:content-type:all": "tsx src/migrations/delete/all.ts",
-    "delete:content-type:image-wrapper": "tsx src/migrations/delete/image-wrapper.ts",
-    "delete:content-type:social-links": "tsx src/migrations/delete/social-links.ts",
-    "delete:content-type:program-session": "tsx src/migrations/delete/program-session.ts",
-    "delete:content-type:coach": "tsx src/migrations/delete/coach.ts",
-    "delete:content-type:article": "tsx src/migrations/delete/article.ts",
-    "delete:content-type:program": "tsx src/migrations/delete/program.ts",
-    "delete:content-type:testimonial": "tsx src/migrations/delete/testimonial.ts",
-
-    "create:content-type:all": "tsx src/migrations/create/all.ts",
-    "create:content-type:image-wrapper": "tsx src/migrations/create/image-wrapper.ts",
-    "create:content-type:social-links": "tsx src/migrations/create/social-links.ts",
-    "create:content-type:program-session": "tsx src/migrations/create/program-session.ts",
-    "create:content-type:coach": "tsx src/migrations/create/coach.ts",
-    "create:content-type:article": "tsx src/migrations/create/article.ts",
-    "create:content-type:program": "tsx src/migrations/create/program.ts",
-    "create:content-type:testimonial": "tsx src/migrations/create/testimonial.ts",
-
-    "import:entry:all": "tsx src/migrations/import/all.ts",
-    "import:entry:coaches": "tsx src/migrations/import/coaches.ts",
-    "import:entry:articles": "tsx src/migrations/import/articles.ts",
-    "import:entry:programs": "tsx src/migrations/import/programs.ts",
-    "import:entry:testimonials": "tsx src/migrations/import/testimonials.ts",
-
-    "cleanup:entry:all": "tsx src/migrations/cleanup/all.ts",
-    "cleanup:entry:articles": "tsx src/migrations/cleanup/articles.ts",
-    "cleanup:entry:coaches": "tsx src/migrations/cleanup/coaches.ts",
-    "cleanup:entry:programs": "tsx src/migrations/cleanup/programs.ts",
-    "cleanup:entry:testimonials": "tsx src/migrations/cleanup/testimonials.ts"
-  },
+  "scripts": {},
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "contentful": "^11.10.0",
-    "contentful-management": "^11.65.0",
-    "contentful-migration": "^4.31.5",
-    "dotenv": "^17.2.3"
-  },
   "devDependencies": {
     "@types/node": "^25.0.0",
     "tsx": "^4.21.0",
