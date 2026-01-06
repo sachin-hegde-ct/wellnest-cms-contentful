@@ -5,9 +5,8 @@ export async function runMigration(
   ctx: MigrationContext
 ) {
   if (ctx.dryRun) {
-    console.log("[dry-run] No changes will be made");
-    return;
+    console.log("\n[dry-run] No changes will be made\n");
   }
 
-    await migration.run(ctx);
+  await migration.run(ctx);
 }

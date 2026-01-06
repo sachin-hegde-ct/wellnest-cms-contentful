@@ -1,3 +1,4 @@
+import { isNotFoundError } from "../helpers/error";
 import { getContentfulContext } from "./environment";
 
 export async function contentTypeExists(
@@ -9,7 +10,7 @@ export async function contentTypeExists(
     await contentfulEnvironment.getContentType(contentTypeId);
     return true;
   } catch (err: any) {
-    if (err?.name === "NotFound") {
+    if (isNotFoundError(err)) {
       return false;
     }
       throw err;

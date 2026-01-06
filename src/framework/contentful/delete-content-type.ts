@@ -1,88 +1,61 @@
 import { runMigration } from "contentful-migration";
 import { getContentfulContext } from "./environment";
 import { confirm } from "@inquirer/prompts";
-
-function isNotFoundError(err: any): boolean {
-  return err?.name === "NotFound";
-}
+import { isNotFoundError } from "../helpers/error";
+import { contentTypeExists } from "./content-type-check";
+import { getEntries } from "./get-entries";
+import { unPublishEntry } from "./unpublish-entry";
 
 /**
  * Deletes all entries of a content type and then deletes the schema.
  * Gracefully skips if content type does not exist.
  */
-export async function deleteContentType(
-  contentTypeId: string,
-  dryRun: boolean
-) {
-  console.log(
-    `\n---------------------------------------------------------\n\n` +
-      `🗑️  Delete → Content Type: ${contentTypeId}\n`
-  );
+export async function deleteContentType(contentTypeId: string) {
+  console.log("\n" + "-".repeat(60) + "\n");
+  console.log(`\n🗑️  Delete → Content Type: ${contentTypeId}\n`);
 
   const { contentfulSpace, contentfulEnvironment } =
     await getContentfulContext();
 
   // ------------------------------------------------------------------
-  // ✅ 0. CHECK IF CONTENT TYPE EXISTS (CRITICAL FIX)
+  // ✅ 0. CHECK IF CONTENT TYPE EXISTS
   // ------------------------------------------------------------------
+  const exists = await contentTypeExists(contentTypeId);
 
-  try {
-    await contentfulEnvironment.getContentType(contentTypeId);
-  } catch (err: any) {
-    if (isNotFoundError(err)) {
-      console.log(
-        `\nℹ️  Content type '${contentTypeId}' does not exist. Skipping delete.\n` +
-          `\n---------------------------------------------------------\n`
-      );
-      return;
-    }
-
+  if (!exists) {
     console.log(
-      `❌ Failed to check content type existence: ${err.message}\n` +
-        `\n---------------------------------------------------------\n`
+      `\nℹ️  Content type '${contentTypeId}' does not exist. Skipping delete.\n`
     );
-    throw err;
+    console.log("\n" + "-".repeat(60) + "\n");
+    return;
   }
 
   // ------------------------------------------------------------------
   // 1. FETCH & DELETE ENTRIES
   // ------------------------------------------------------------------
 
-  const entries = await contentfulEnvironment.getEntries({
-    content_type: contentTypeId,
-    limit: 1000,
-  });
+  const entries = await getEntries({ content_type: contentTypeId });
 
   const count = entries.items.length;
 
   if (count > 0) {
     console.log(`    ⚠️  Found ${count} entr${count === 1 ? "y" : "ies"}.\n`);
 
-    if (!dryRun) {
-      const confirmed = await confirm({
-        message: `Delete ALL ${count} entries of '${contentTypeId}'?`,
-        default: false,
-      });
+    const confirmed = await confirm({
+      message: `Delete ALL ${count} entries of '${contentTypeId}'?`,
+      default: false,
+    });
 
-      if (!confirmed) {
-        console.log(`    ❌ Entry deletion aborted.\n`);
-        return;
-      }
+    if (!confirmed) {
+      console.log(`    ❌ Entry deletion aborted.\n`);
+      return;
     }
 
     for (const entry of entries.items) {
       const id = entry.sys.id;
 
-      if (dryRun) {
-        console.log(`        [dry-run] Would delete entry ${id}`);
-        continue;
-      }
-
       try {
-        if (entry.isPublished && entry.isPublished()) {
-          console.log(`        • Unpublish: ${id}`);
-          await entry.unpublish();
-        }
+        await unPublishEntry(entry);
 
         console.log(`        • Delete: ${id}`);
         await entry.delete();
@@ -97,14 +70,6 @@ export async function deleteContentType(
   // ------------------------------------------------------------------
   // 2. DELETE CONTENT TYPE SCHEMA
   // ------------------------------------------------------------------
-
-  if (dryRun) {
-    console.log(
-      `    [dry-run] Would delete schema '${contentTypeId}'\n` +
-        `\n---------------------------------------------------------\n`
-    );
-    return;
-  }
 
   const confirmedSchema = await confirm({
     message: `Delete content type schema '${contentTypeId}'?`,
@@ -129,21 +94,17 @@ export async function deleteContentType(
     });
 
     console.log(
-      `    🎉 Content type '${contentTypeId}' deleted successfully.\n` +
-        `\n---------------------------------------------------------\n`
+      `    🎉 Content type '${contentTypeId}' deleted successfully.\n`
     );
+    console.log("\n" + "-".repeat(60) + "\n");
   } catch (err: any) {
     if (isNotFoundError(err)) {
-      console.log(
-        `\nℹ️  Content type '${contentTypeId}' already deleted.\n` +
-          `\n---------------------------------------------------------\n`
-      );
+      console.log(`\nℹ️  Content type '${contentTypeId}' already deleted.\n`);
+      console.log("\n" + "-".repeat(60) + "\n");
       return;
     }
 
-    console.log(
-      `    ❌ Failed to delete schema: ${err.message}\n` +
-        `\n---------------------------------------------------------\n`
-    );
+    console.log(`    ❌ Failed to delete schema: ${err.message}\n`);
+    console.log("\n" + "-".repeat(60) + "\n");
   }
 }

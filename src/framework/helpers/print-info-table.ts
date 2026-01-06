@@ -3,7 +3,7 @@ type Row = {
   value: string;
 };
 
-export function printInfoCard(title: string, rows: Row[]) {
+export function printInfoTable(title: string, rows: Row[]) {
   const labelWidth = Math.max(...rows.map((r) => r.label.length));
   const valueWidth = Math.max(...rows.map((r) => r.value.length));
 

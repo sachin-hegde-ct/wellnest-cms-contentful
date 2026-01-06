@@ -1,11 +1,10 @@
 import { Migration } from "../../../framework/types/migration";
 import { createContentType } from "../../../framework/contentful/create-content-type";
-import {
-  resolveDryRun,
-  isDirectExecution,
-} from "../../../framework/cli/standalone";
 import { testimonialSchema } from "../../schema/testimonial";
 import { CONTENT_TYPES } from "../../config/content-types";
+import { testimonialPreview } from "../../schema/preview/testimonial.preview";
+import { printDryRunCreateContentType } from "../../../framework/helpers/print-dry-run";
+import { runStandaloneIfInvoked } from "../../../framework/cli/run-standalone";
 
 const createTestimonialContentType: Migration = {
   id: "create-content-type-testimonial",
@@ -13,11 +12,14 @@ const createTestimonialContentType: Migration = {
   target: CONTENT_TYPES.TESTIMONIAL,
 
   async run({ dryRun }) {
-    await createContentType(
-      CONTENT_TYPES.TESTIMONIAL,
-      testimonialSchema,
-      dryRun
-    );
+    if (dryRun) {
+      return await printDryRunCreateContentType(
+        CONTENT_TYPES.TESTIMONIAL,
+        testimonialPreview
+      );
+    }
+
+    await createContentType(CONTENT_TYPES.TESTIMONIAL, testimonialSchema);
   },
 };
 
@@ -26,16 +28,4 @@ export default createTestimonialContentType;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-
-async function runStandalone() {
-  await import("dotenv/config");
-  const dryRun = resolveDryRun();
-  await createTestimonialContentType.run({ dryRun });
-}
-
-if (isDirectExecution(import.meta.url)) {
-  runStandalone().catch((err) => {
-    console.error("\n❌ Standalone execution failed:", err);
-    process.exit(1);
-  });
-}
+runStandaloneIfInvoked(import.meta.url, createTestimonialContentType);

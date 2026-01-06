@@ -1,104 +1,89 @@
-import fs from "fs/promises";
 import { Migration } from "../../../framework/types/migration";
+import { contentTypeExists } from "../../../framework/contentful/content-type-check";
 import { deleteEntryById } from "../../../framework/contentful/delete-entry";
+import { deleteDataFile } from "../../../framework/fs/delete-data-file";
 import { TESTIMONIAL_DATA_DIR } from "../../config/data-dir";
-import {
-  resolveDryRun,
-  isDirectExecution,
-} from "../../../framework/cli/standalone";
+import { CONTENT_TYPES } from "../../config/content-types";
+import { readDataFile } from "../../../framework/fs/read-data-file";
+import { runStandaloneIfInvoked } from "../../../framework/cli/run-standalone";
 
 const cleanupTestimonials: Migration = {
   id: "cleanup-entry-testimonials",
   kind: "cleanup",
-  target: "testimonials",
+  target: CONTENT_TYPES.TESTIMONIAL,
 
   async run({ dryRun }) {
-    console.log(
-      `\n---------------------------------------------------------\n\n` +
-        `🧤 Cleanup → Testimonials\n`
-    );
+    console.log("\n" + "-".repeat(60) + "\n");
+    console.log(`\n🧤 Cleanup → Testimonials\n`);
 
-    const { FINAL, PROGRAM_MAP } = TESTIMONIAL_DATA_DIR;
+    // ------------------------------------------------------
+    // 1️⃣ PREFLIGHT
+    // ------------------------------------------------------
 
-    let testimonials: any[] = [];
+    const exists = await contentTypeExists(CONTENT_TYPES.TESTIMONIAL);
 
-    // ---------- Load testimonial file ----------
-    try {
-      testimonials = JSON.parse(await fs.readFile(FINAL, "utf8"));
-    } catch {
-      console.log(
-        `⚠️  No file found: ${FINAL}. Skipping testimonial cleanup\n` +
-          `\n---------------------------------------------------------\n`
-      );
+    if (!exists) {
+      console.log(`ℹ️  Content type '${CONTENT_TYPES.TESTIMONIAL}' does not exist.\n`);
+      console.log("\n" + "-".repeat(60) + "\n");
       return;
     }
 
-    // ---------- Delete testimonial entries ----------
-    for (const [index, testimonial] of testimonials.entries()) {
-      const name = testimonial?.name ?? "Unknown";
-      const entryId = testimonial?.sys?.id;
+    // ------------------------------------------------------
+    // 2️⃣ LOAD STATE FILES
+    // ------------------------------------------------------
+    const testimonials = await readDataFile<any[]>(TESTIMONIAL_DATA_DIR.FINAL);
 
-      console.log(`  [${index + 1}/${testimonials.length}] 🧹 ${name}`);
-
-      if (!entryId) {
-        console.log(`      ⚠️  Missing entry id, skipped\n`);
-        continue;
-      }
-
-      if (dryRun) {
-        console.log(`      [dry-run] Would delete entry ${entryId}\n`);
-        continue;
-      }
-
-      await deleteEntryById(entryId);
+    if (!testimonials) {
+      console.log("\n" + "-".repeat(60) + "\n");
+      return;
     }
 
-    // ---------- Delete local JSON files ----------
-    await safeDelete(FINAL, dryRun);
-    await safeDelete(PROGRAM_MAP, dryRun);
+    // ------------------------------------------------------
+    // 3️⃣ STREAM CLEANUP (ONE TESTIMONIAL AT A TIME)
+    // ------------------------------------------------------
 
-    console.log(
-      `\n\n🎉 Cleanup completed for Testimonials.\n` +
-        `\n---------------------------------------------------------\n`
-    );
+    const total = testimonials.length;
+
+    for (let index = 0; index < total; index++) {
+      const testimonial = testimonials[index];
+
+      console.log(
+        `\n [${index + 1}/${total}] 🧹 Removing Testimonial: ${
+          testimonial.name
+        }\n`
+      );
+
+      if (testimonial?.sys?.id) {
+        if (dryRun) {
+          console.log(
+            `   [dry-run] Would delete Testimonial ${testimonial.sys.id}`
+          );
+        } else {
+          await deleteEntryById(testimonial.sys.id);
+        }
+      }
+    }
+
+    // ------------------------------------------------------
+    // 4️⃣ CLEAN LOCAL STATE
+    // ------------------------------------------------------
+
+    await deleteDataFile(TESTIMONIAL_DATA_DIR.FINAL, dryRun);
+    await deleteDataFile(TESTIMONIAL_DATA_DIR.PROGRAM_MAP, dryRun);
+
+    if (dryRun) {
+      console.log(`\n\n🧪 Dry run summary: ${total} testimonial(s) would be deleted.\n`);
+    } else {
+      console.log(`\n\n🎉 Cleanup completed for Testimonials.\n`);
+    }
+
+    console.log("\n" + "-".repeat(60) + "\n");
   },
 };
 
 export default cleanupTestimonials;
 
 /* ------------------------------------------------------------------ */
-
-async function safeDelete(filePath: string, dryRun: boolean) {
-  if (dryRun) {
-    console.log(`  [dry-run] Would delete file: ${filePath}`);
-    return;
-  }
-
-  try {
-    await fs.unlink(filePath);
-    console.log(`\n  🗑️  Deleted file: ${filePath}`);
-  } catch (err: any) {
-    if (err.code === "ENOENT") {
-      console.log(`  ⚠️  File not found, skipped: ${filePath}\n`);
-    } else {
-      console.log(`  ❌ Failed to delete ${filePath}: ${err.message}\n`);
-    }
-  }
-}
-
-/* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-
-async function runStandalone() {
-  await import("dotenv/config");
-  const dryRun = resolveDryRun();
-  await cleanupTestimonials.run({ dryRun });
-}
-
-if (isDirectExecution(import.meta.url)) {
-  runStandalone().catch((err) => {
-    console.error("\n❌ Standalone execution failed:", err);
-    process.exit(1);
-  });
-}
+runStandaloneIfInvoked(import.meta.url, cleanupTestimonials);

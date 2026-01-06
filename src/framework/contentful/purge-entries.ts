@@ -1,8 +1,10 @@
 import { getContentfulContext } from "./environment";
+import { getEntries } from "./get-entries";
+import { unPublishEntry } from "./unpublish-entry";
 
 /**
- * Reusable purge helper.
- * Deletes ALL entries of a given content type.
+ * Purges ALL entries of a given content type.
+ * Safe for large datasets and dry-run.
  */
 export async function purgeEntriesByContentType(
   contentType: string,
@@ -10,11 +12,30 @@ export async function purgeEntriesByContentType(
 ) {
   const { contentfulEnvironment } = await getContentfulContext();
 
-  let skip = 0;
   const limit = 1000;
 
-  while (true) {
-    const { items } = await contentfulEnvironment.getEntries({
+  // -------------------------------------------------------
+  // 1️⃣ Get TOTAL count
+  // -------------------------------------------------------
+
+  const meta = await getEntries({ content_type: contentType, limit: 0 });
+
+  const total = meta.total;
+
+  if (total === 0) {
+    console.log(`   ℹ️  No entries found to purge.\n`);
+    return;
+  }
+
+  // -------------------------------------------------------
+  // 2️⃣ COLLECT ENTRY IDS (snapshot)
+  // -------------------------------------------------------
+
+  const entryIds: string[] = [];
+  let skip = 0;
+
+  while (entryIds.length < total) {
+    const { items } = await getEntries({
       content_type: contentType,
       limit,
       skip,
@@ -22,23 +43,57 @@ export async function purgeEntriesByContentType(
 
     if (!items.length) break;
 
-    for (const [index, entry] of items.entries()) {
-      console.log(
-        `  [${skip + index + 1} / ${items.length}] 🧹 ${entry.sys.id}`
-      );
-
-      if (dryRun) {
-        console.log(`      [dry-run] Would delete entry ${entry.sys.id}\n`);
-        continue;
-      }
-
-      if (entry.isPublished && entry.isPublished()) {
-        await entry.unpublish();
-      }
-
-      await entry.delete();
+    for (const entry of items) {
+      entryIds.push(entry.sys.id);
     }
 
     skip += items.length;
+  }
+
+  // -------------------------------------------------------
+  // 3️⃣ PURGE SNAPSHOT
+  // -------------------------------------------------------
+
+  let processed = 0;
+
+  for (const entryId of entryIds) {
+    processed++;
+
+    console.log(`   [${processed}/${total}] 🧹 Processing entry: ${entryId}`);
+
+    if (dryRun) {
+      console.log(
+        `        [dry-run] Would unpublish (if needed) and delete ${entryId}\n`
+      );
+      continue;
+    }
+
+    try {
+      const entry = await contentfulEnvironment.getEntry(entryId);
+
+      await unPublishEntry(entry);
+
+      await entry.delete();
+    } catch (err: any) {
+      console.log(`      ❌ Failed to delete ${entryId}: ${err.message}`);
+    }
+  }
+
+  // -------------------------------------------------------
+  // 4️⃣ SUMMARY
+  // -------------------------------------------------------
+
+  if (dryRun) {
+    console.log(
+      `\n🧪 Dry run completed. ${processed} entr${
+        processed === 1 ? "y" : "ies"
+      } would have been purged.\n`
+    );
+  } else {
+    console.log(
+      `\n✅ Purge completed. Deleted ${processed} entr${
+        processed === 1 ? "y" : "ies"
+      }.\n`
+    );
   }
 }

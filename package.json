@@ -6,23 +6,54 @@
   "type": "commonjs",
   "scripts": {
     "migrate": "tsx src/framework/cli/index.ts",
-    "create:entry:testimonial": "tsx src/project/migrations/create/testimonial.ts",
-    "delete:entry:testimonial": "tsx src/project/migrations/delete/testimonial.ts",
+
+    "migrate:all": "tsx src/migrations/all.ts",
+
+    "delete:content-type:all": "tsx src/project/migrations/delete/all.ts",
+    "delete:content-type:article": "tsx src/project/migrations/delete/article.ts",
+    "delete:content-type:coach": "tsx src/project/migrations/delete/coach.ts",
+    "delete:content-type:image-wrapper": "tsx src/project/migrations/delete/image-wrapper.ts",
+    "delete:content-type:program-session": "tsx src/project/migrations/delete/program-session.ts",
+    "delete:content-type:program": "tsx src/project/migrations/delete/program.ts",
+    "delete:content-type:social-links": "tsx src/project/migrations/delete/social-links.ts",
+    "delete:content-type:testimonial": "tsx src/project/migrations/delete/testimonial.ts",
+
+    "create:content-type:all": "tsx src/project/migrations/create/all.ts",
+    "create:content-type:article": "tsx src/project/migrations/create/article.ts",
+    "create:content-type:coach": "tsx src/project/migrations/create/coach.ts",
+    "create:content-type:image-wrapper": "tsx src/project/migrations/create/image-wrapper.ts",
+    "create:content-type:program-session": "tsx src/project/migrations/create/program-session.ts",
+    "create:content-type:program": "tsx src/project/migrations/create/program.ts",
+    "create:content-type:social-links": "tsx src/project/migrations/create/social-links.ts",
+    "create:content-type:testimonial": "tsx src/project/migrations/create/testimonial.ts",
+    
+    "import:entry:all": "tsx src/project/migrations/import/all.ts",
+    "import:entry:coaches": "tsx src/project/migrations/import/coaches.ts",
+    "import:entry:articles": "tsx src/project/migrations/import/articles.ts",
+    "import:entry:programs": "tsx src/project/migrations/import/programs.ts",
+    "import:entry:testimonials": "tsx src/project/migrations/import/testimonials.ts",
+    
+    "cleanup:entry:all": "tsx src/project/migrations/cleanup/all.ts",
+    "cleanup:entry:articles": "tsx src/project/migrations/cleanup/articles.ts",
+    "cleanup:entry:coaches": "tsx src/project/migrations/cleanup/coaches.ts",
+    "cleanup:entry:programs": "tsx src/project/migrations/cleanup/programs.ts",
     "cleanup:entry:testimonials": "tsx src/project/migrations/cleanup/testimonials.ts",
+    
+    "purge:entry:all": "tsx src/project/migrations/purge/all.ts",
+    "purge:entry:articles": "tsx src/project/migrations/purge/articles.ts",
+    "purge:entry:coaches": "tsx src/project/migrations/purge/coaches.ts",
+    "purge:entry:programs": "tsx src/project/migrations/purge/programs.ts",
     "purge:entry:testimonials": "tsx src/project/migrations/purge/testimonials.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
+  "devDependencies": {
     "@inquirer/core": "^11.1.0",
     "@inquirer/prompts": "^8.1.0",
-    "contentful-management": "^11.66.0",
-    "contentful-migration": "^4.31.5",
-    "dotenv": "^17.2.3"
-  },
-  "devDependencies": {
     "@types/node": "^25.0.3",
+    "contentful-management": "^11.67.0",
+    "contentful-migration": "^4.31.5",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }

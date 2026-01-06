@@ -10,6 +10,11 @@ export async function createEntry(
     fields,
   });
 
+  console.log(
+    `\n        📝 Action: Create Entry, Content Type: ${contentType}, Id: ${entry.sys.id}`
+  );
+  
   await entry.publish();
+
   return entry;
 }

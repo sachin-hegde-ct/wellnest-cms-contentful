@@ -5,13 +5,13 @@ import { migrations } from "../../project/registry";
 import { askOperation, askTarget, askDryRun } from "./prompts";
 import { runMigration } from "../core/runner";
 import { getEnvironmentInfo } from "../contentful/environment";
-import { printInfoCard } from "./console-card";
 import { enforceProdSafety } from "./prod-safety";
+import { printInfoTable } from "../helpers/print-info-table";
 
 async function main() {
   const envInfo = await getEnvironmentInfo();
 
-  printInfoCard("Contentful Target", [
+  printInfoTable("Contentful Target", [
     { label: "Space", value: envInfo.spaceId },
     { label: "Environment", value: envInfo.environment },
   ]);

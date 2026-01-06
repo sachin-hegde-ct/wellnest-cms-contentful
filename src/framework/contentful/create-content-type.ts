@@ -1,9 +1,6 @@
 import { runMigration, MigrationFunction } from "contentful-migration";
 import { getContentfulContext } from "./environment";
-
-function isNotFoundError(err: any): boolean {
-  return err?.name === "NotFound";
-}
+import { contentTypeExists } from "./content-type-check";
 
 /**
  * Creates a content type if it does not already exist.
@@ -11,51 +8,31 @@ function isNotFoundError(err: any): boolean {
  */
 export async function createContentType(
   contentTypeId: string,
-  migrationFn: MigrationFunction,
-  dryRun: boolean
+  migrationFn: MigrationFunction
 ) {
-  console.log(
-    `\n---------------------------------------------------------\n\n` +
-      `🧱 Create → Content Type: ${contentTypeId}\n`
-  );
+  console.log("\n" + "-".repeat(60) + "\n");
+  console.log(`\n🧱 Create → Content Type: ${contentTypeId}\n`);
 
-  const { contentfulEnvironment, contentfulSpace, contentfulClient } =
+  const { contentfulEnvironment, contentfulSpace } =
     await getContentfulContext();
 
   // ------------------------------------------------------------------
   // 1. CHECK IF CONTENT TYPE EXISTS
   // ------------------------------------------------------------------
 
-  try {
-    await contentfulEnvironment.getContentType(contentTypeId);
-
+  const exists = await contentTypeExists(contentTypeId);
+  
+  if (exists) {
     console.log(
-      `ℹ️  Content type '${contentTypeId}' already exists. Skipping create.\n` +
-        `\n---------------------------------------------------------\n`
+      `ℹ️  Content type '${contentTypeId}' already exists. Skipping create.\n`
     );
+    console.log("\n" + "-".repeat(60) + "\n");
     return;
-  } catch (err: any) {
-    if (!isNotFoundError(err)) {
-      console.log(
-        `    ❌ Failed to check content type: ${err.message}\n` +
-          `\n---------------------------------------------------------\n`
-      );
-      throw err;
-    }
-    // Not found → continue to create
   }
 
   // ------------------------------------------------------------------
   // 2. CREATE CONTENT TYPE
   // ------------------------------------------------------------------
-
-  if (dryRun) {
-    console.log(
-      `    [dry-run] Would create content type '${contentTypeId}'\n` +
-        `\n---------------------------------------------------------\n`
-    );
-    return;
-  }
 
   await runMigration({
     spaceId: contentfulSpace.sys.id,
@@ -64,8 +41,6 @@ export async function createContentType(
     migrationFunction: migrationFn,
   });
 
-  console.log(
-    `\n    🎉 Content type '${contentTypeId}' created successfully.\n` +
-      `\n---------------------------------------------------------\n`
-  );
+  console.log(`\n🎉 Content type '${contentTypeId}' created successfully.\n`);
+  console.log("\n" + "-".repeat(60) + "\n");
 }

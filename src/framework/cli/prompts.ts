@@ -10,6 +10,8 @@ export async function askOperation(migrations: Migration[]): Promise<string> {
       name: formatKind(k),
       value: k,
     })),
+    loop: true,
+    pageSize: 10,
   });
 }
 
@@ -27,6 +29,8 @@ export async function askTarget(
       name: t,
       value: t,
     })),
+    loop: true,
+    pageSize: 10
   });
 }
 
@@ -39,10 +43,10 @@ export async function askDryRun(): Promise<boolean> {
 
 function formatKind(kind: string) {
   switch (kind) {
-    case 'migrate': return "Migrate Everything";
+    case 'migrate': return "🪄  Migrate Everything";
     case 'create': return "🧱 Create Content Type";
     case 'import': return "🚀 Import Entries";
-    case 'cleanup': return "🧤 Cleanup Entries";
+    case 'cleanup': return "🧤 Cleanup Imported Entries";
     case 'delete': return "🗑️  Delete Content Type";
     case 'purge': return "🔥 Purge entries (dangerous)";
   };
