@@ -1,9 +1,9 @@
 import { Migration } from "../../../framework/types/migration";
 import { deleteContentType } from "../../../framework/contentful/delete-content-type";
 import { CONTENT_TYPES } from "../../config/content-types";
-import { programSessionPreview } from "../../schema/preview/program-session";
 import { printDryRunDeleteContentType } from "../../../framework/helpers/print-dry-run";
 import { runStandaloneIfInvoked } from "../../../framework/cli/run-standalone";
+import { programSessionSchema } from "../../schema/programSession.schema";
 
 const deleteProgramSessionContentType: Migration = {
   id: "delete-content-type-program-session",
@@ -12,11 +12,9 @@ const deleteProgramSessionContentType: Migration = {
 
   async run({ dryRun }) {
     if (dryRun) {
-      return await printDryRunDeleteContentType(
-        CONTENT_TYPES.PROGRAM_SESSION,
-        programSessionPreview
-      );
+      return await printDryRunDeleteContentType(programSessionSchema);
     }
+
     await deleteContentType(CONTENT_TYPES.PROGRAM_SESSION);
   },
 };

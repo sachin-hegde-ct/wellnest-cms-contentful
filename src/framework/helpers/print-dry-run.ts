@@ -3,56 +3,59 @@ import { getContentfulContext } from "../contentful/environment";
 import { getEntries } from "../contentful/get-entries";
 import { printContentTypePreview } from "../schema/print-preview";
 import { ContentTypePreview } from "../schema/schema-types";
+import { ContentTypeSchema } from "../types/content-type";
 
 export async function printDryRunCreateContentType(
-  contentTypeId: string,
-  contentTypePreview: ContentTypePreview,
+  schema: ContentTypeSchema,
   { validationSpacer = 50 }: { validationSpacer?: number } = {}
 ) {
   console.log("\n" + "-".repeat(60) + "\n");
-  console.log(`\n🧱 Create → Content Type: ${contentTypeId}\n`);
+  console.log(`\n🧱 Create → Content Type: ${schema.id}\n`);
 
-  const exists = await contentTypeExists(contentTypeId);
+  const exists = await contentTypeExists(schema.id);
 
   if (exists) {
     console.log(
-      `ℹ️  Content type '${contentTypeId}' already exists. Skipping create.\n`
+      `ℹ️  Content type '${schema.id}' already exists. Skipping create.\n`
     );
     console.log("\n" + "-".repeat(60) + "\n");
     return;
   }
 
-  console.log(`  Would create content type '${contentTypeId}'\n`);
-  printContentTypePreview(contentTypePreview, { validationSpacer });
+  console.log(`  Would create content type '${schema.id}'`);
+  console.log(`  Name           : ${schema.name}`);
+  console.log(`  Display field  : ${schema.displayField}`);
+  if (schema.description) {
+    console.log(`  Description    : ${schema.description}`);
+  }
+
+  printContentTypePreview(schema, { validationSpacer });
 
   console.log(`\n🧪 Dry run completed. No data was written.\n`);
   console.log("\n" + "-".repeat(60) + "\n");
-
-  return;
 }
 
 export async function printDryRunDeleteContentType(
-  contentTypeId: string,
-  contentTypePreview: ContentTypePreview,
+  schema: ContentTypeSchema,
   { validationSpacer = 50 }: { validationSpacer?: number } = {}
 ) {
   const { contentfulEnvironment } = await getContentfulContext();
 
   console.log("\n" + "-".repeat(60) + "\n");
-  console.log(`\n🗑️  Delete → Content Type: ${contentTypeId}\n`);
+  console.log(`\n🗑️  Delete → Content Type: ${schema.id}\n`);
 
-  const exists = await contentTypeExists(contentTypeId);
+  const exists = await contentTypeExists(schema.id);
 
   if (!exists) {
     console.log(
-      `\nℹ️  Content type '${contentTypeId}' does not exist. Skipping delete.\n`
+      `\nℹ️  Content type '${schema.id}' does not exist. Skipping delete.\n`
     );
     console.log("\n" + "-".repeat(60) + "\n");
     return;
   }
 
   const entries = await getEntries({
-    content_type: contentTypeId,
+    content_type: schema.id,
     limit: 1000,
   });
   const count = entries.items.length;
@@ -65,8 +68,8 @@ export async function printDryRunDeleteContentType(
     console.log(`        Would delete entry ${entry.sys.id}`);
   }
 
-  console.log(`\n\n   Would delete schema '${contentTypeId}'\n`);
-  printContentTypePreview(contentTypePreview, { validationSpacer });
+  console.log(`\n\n   Would delete schema '${schema.id}'\n`);
+  printContentTypePreview(schema, { validationSpacer });
 
   console.log(`\n🧪 Dry run completed. No data was written.\n`);
   console.log("\n" + "-".repeat(60) + "\n");

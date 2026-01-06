@@ -1,8 +1,7 @@
 import { Migration } from "../../../framework/types/migration";
 import { createContentType } from "../../../framework/contentful/create-content-type";
 import { CONTENT_TYPES } from "../../config/content-types";
-import { articleSchema } from "../../schema/article";
-import { articlePreview } from "../../schema/preview/article.preview";
+import { articleSchema } from "../../schema/article.schema";
 import { printDryRunCreateContentType } from "../../../framework/helpers/print-dry-run";
 import { runStandaloneIfInvoked } from "../../../framework/cli/run-standalone";
 
@@ -13,10 +12,10 @@ const createArticleContentType: Migration = {
 
   async run({ dryRun }) {
     if (dryRun) {
-      return await printDryRunCreateContentType(CONTENT_TYPES.ARTICLE, articlePreview);
+      return await printDryRunCreateContentType(articleSchema);
     }
 
-    await createContentType(CONTENT_TYPES.ARTICLE, articleSchema);
+    await createContentType(articleSchema);
   },
 };
 

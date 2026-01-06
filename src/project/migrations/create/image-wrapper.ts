@@ -1,10 +1,9 @@
 import { Migration } from "../../../framework/types/migration";
 import { createContentType } from "../../../framework/contentful/create-content-type";
 import { CONTENT_TYPES } from "../../config/content-types";
-import { imageWrapperSchema } from "../../schema/image-wrapper";
-import { imageWrapperPreview } from "../../schema/preview/image-wrapper.preview";
 import { printDryRunCreateContentType } from "../../../framework/helpers/print-dry-run";
 import { runStandaloneIfInvoked } from "../../../framework/cli/run-standalone";
+import { imageWrapperSchema } from "../../schema/imageWrapper.schema";
 
 const createImageWrapperContentType: Migration = {
   id: "create-content-type-image-wrapper",
@@ -13,14 +12,12 @@ const createImageWrapperContentType: Migration = {
 
   async run({ dryRun }) {
     if (dryRun) {
-      return await printDryRunCreateContentType(
-        CONTENT_TYPES.IMAGE_WRAPPER,
-        imageWrapperPreview,
-        {validationSpacer: 20}
-      );
+      return await printDryRunCreateContentType(imageWrapperSchema, {
+        validationSpacer: 20,
+      });
     }
 
-    await createContentType(CONTENT_TYPES.IMAGE_WRAPPER, imageWrapperSchema);
+    await createContentType(imageWrapperSchema);
   },
 };
 

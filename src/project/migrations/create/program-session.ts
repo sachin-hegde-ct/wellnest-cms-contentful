@@ -1,10 +1,9 @@
 import { Migration } from "../../../framework/types/migration";
 import { createContentType } from "../../../framework/contentful/create-content-type";
 import { CONTENT_TYPES } from "../../config/content-types";
-import { programSessionSchema } from "../../schema/program-session";
-import { programSessionPreview } from "../../schema/preview/program-session";
 import { printDryRunCreateContentType } from "../../../framework/helpers/print-dry-run";
 import { runStandaloneIfInvoked } from "../../../framework/cli/run-standalone";
+import { programSessionSchema } from "../../schema/programSession.schema";
 
 const createProgramSessionContentType: Migration = {
   id: "create-content-type-program-session",
@@ -13,16 +12,10 @@ const createProgramSessionContentType: Migration = {
 
   async run({ dryRun }) {
     if (dryRun) {
-      return await printDryRunCreateContentType(
-        CONTENT_TYPES.PROGRAM_SESSION,
-        programSessionPreview
-      );
+      return await printDryRunCreateContentType(programSessionSchema);
     }
 
-    await createContentType(
-      CONTENT_TYPES.PROGRAM_SESSION,
-      programSessionSchema
-    );
+    await createContentType(programSessionSchema);
   },
 };
 

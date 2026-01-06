@@ -28,7 +28,7 @@ Initializes and caches Contentful client, space, and environment.
 Checks existence and state of Contentful content types.
 
 ### `create-content-type.ts`
-Creates content types safely using contentful-migration.
+Creates Contentful content types safely and idempotently using the Contentful Management API, based on a strongly-typed `ContentTypeSchema`.
 
 ### `delete-content-type.ts`
 Deletes a content type after removing its entries.

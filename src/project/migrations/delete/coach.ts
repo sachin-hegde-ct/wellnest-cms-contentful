@@ -1,9 +1,9 @@
 import { Migration } from "../../../framework/types/migration";
 import { deleteContentType } from "../../../framework/contentful/delete-content-type";
 import { CONTENT_TYPES } from "../../config/content-types";
-import { coachPreview } from "../../schema/preview/coach.preview";
 import { printDryRunDeleteContentType } from "../../../framework/helpers/print-dry-run";
 import { runStandaloneIfInvoked } from "../../../framework/cli/run-standalone";
+import { coachSchema } from "../../schema/coach.schema";
 
 const deleteCoachContentType: Migration = {
   id: "delete-content-type-coach",
@@ -12,11 +12,9 @@ const deleteCoachContentType: Migration = {
 
   async run({ dryRun }) {
     if (dryRun) {
-      return await printDryRunDeleteContentType(
-        CONTENT_TYPES.COACH,
-        coachPreview,
-        { validationSpacer: 60 }
-      );
+      return await printDryRunDeleteContentType(coachSchema, {
+        validationSpacer: 60,
+      });
     }
 
     await deleteContentType(CONTENT_TYPES.COACH);

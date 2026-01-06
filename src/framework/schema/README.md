@@ -5,9 +5,13 @@ This folder contains **schema-level abstractions and rendering utilities** used 
 ```
 src/framework/schema/
 │
+├─ build-field.ts
 ├─ print-preview.ts
 ├─ schema-types.ts
 ```
+
+### `build-field.ts`
+Transforms framework schema fields into Contentful Management API–compatible field definitions, applying runtime safety checks and centralized editor widget configuration.
 
 ### `schema-types.ts`
 Defines framework-level TypeScript types that describe Contentful content type structure, field metadata, validations, and UI hints in a simplified, migration-friendly format.

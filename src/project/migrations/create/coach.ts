@@ -1,8 +1,7 @@
 import { Migration } from "../../../framework/types/migration";
 import { createContentType } from "../../../framework/contentful/create-content-type";
 import { CONTENT_TYPES } from "../../config/content-types";
-import { coachSchema } from "../../schema/coach";
-import { coachPreview } from "../../schema/preview/coach.preview";
+import { coachSchema } from "../../schema/coach.schema";
 import { printDryRunCreateContentType } from "../../../framework/helpers/print-dry-run";
 import { runStandaloneIfInvoked } from "../../../framework/cli/run-standalone";
 
@@ -13,10 +12,12 @@ const createCoachContentType: Migration = {
 
   async run({ dryRun }) {
     if (dryRun) {
-      return await printDryRunCreateContentType(CONTENT_TYPES.COACH, coachPreview, { validationSpacer: 60 });
+      return await printDryRunCreateContentType(coachSchema, {
+        validationSpacer: 60,
+      });
     }
-    
-    await createContentType(CONTENT_TYPES.COACH, coachSchema);
+
+    await createContentType(coachSchema);
   },
 };
 

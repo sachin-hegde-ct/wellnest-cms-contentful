@@ -1,10 +1,9 @@
 import { Migration } from "../../../framework/types/migration";
 import { createContentType } from "../../../framework/contentful/create-content-type";
 import { CONTENT_TYPES } from "../../config/content-types";
-import { socialLinksSchema } from "../../schema/social-links";
-import { socialLinksPreview } from "../../schema/preview/social-links.preview";
 import { printDryRunCreateContentType } from "../../../framework/helpers/print-dry-run";
 import { runStandaloneIfInvoked } from "../../../framework/cli/run-standalone";
+import { socialLinksSchema } from "../../schema/social-links.schema";
 
 const createSocialLinksContentType: Migration = {
   id: "create-content-type-social-links",
@@ -13,13 +12,10 @@ const createSocialLinksContentType: Migration = {
 
   async run({ dryRun }) {
     if (dryRun) {
-      return await printDryRunCreateContentType(
-        CONTENT_TYPES.SOCIAL_LINKS,
-        socialLinksPreview
-      );
+      return await printDryRunCreateContentType(socialLinksSchema);
     }
 
-    await createContentType(CONTENT_TYPES.SOCIAL_LINKS, socialLinksSchema);
+    await createContentType(socialLinksSchema);
   },
 };
 

@@ -1,10 +1,9 @@
 import { Migration } from "../../../framework/types/migration";
 import { createContentType } from "../../../framework/contentful/create-content-type";
 import { CONTENT_TYPES } from "../../config/content-types";
-import { programSchema } from "../../schema/program";
-import { programPreview } from "../../schema/preview/program.preview";
 import { printDryRunCreateContentType } from "../../../framework/helpers/print-dry-run";
 import { runStandaloneIfInvoked } from "../../../framework/cli/run-standalone";
+import { programSchema } from "../../schema/program.schema";
 
 const createProgramContentType: Migration = {
   id: "create-content-type-program",
@@ -13,13 +12,10 @@ const createProgramContentType: Migration = {
 
   async run({ dryRun }) {
     if (dryRun) {
-      return await printDryRunCreateContentType(
-        CONTENT_TYPES.PROGRAM,
-        programPreview
-      );
+      return await printDryRunCreateContentType(programSchema);
     }
 
-    await createContentType(CONTENT_TYPES.PROGRAM, programSchema);
+    await createContentType(programSchema);
   },
 };
 
