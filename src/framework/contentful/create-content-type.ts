@@ -23,6 +23,8 @@ export async function createContentType(schema: ContentTypeSchema) {
     return;
   }
 
+  console.log(`\n    ⏳ Creating schema '${schema.id}'…\n`);
+
   /* ---------- Create content type ---------- */
   const contentType = await contentfulEnvironment.createContentTypeWithId(
     schema.id,

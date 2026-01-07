@@ -54,7 +54,7 @@ export async function deleteContentType(contentTypeId: string) {
 
       try {
         await unPublishEntry(entry);
-        console.log(`        🗑️   Action: Delete Entry, Id: ${id}\n`); 
+        console.log(`        🗑️   Action: Delete Entry, Id: ${id}\n`);
         await entry.delete();
       } catch (err: any) {
         console.log(`        ❌ Failed to delete ${id}: ${err.message}`);
@@ -92,9 +92,7 @@ export async function deleteContentType(contentTypeId: string) {
 
     await contentType.delete();
 
-    console.log(
-      `    🎉 Content type '${contentTypeId}' deleted successfully.\n`
-    );
+    console.log(`🎉 Content type '${contentTypeId}' deleted successfully.\n`);
     console.log("\n" + "-".repeat(60) + "\n");
   } catch (err: any) {
     if (isNotFoundError(err)) {
