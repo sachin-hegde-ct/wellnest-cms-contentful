@@ -1,9 +1,9 @@
 import { Migration } from "../../../framework/types/migration";
 import { deleteContentType } from "../../../framework/contentful/delete-content-type";
 import { CONTENT_TYPES } from "../../config/content-types";
-import { articlePreview } from "../../schema/preview/article.preview";
 import { printDryRunDeleteContentType } from "../../../framework/helpers/print-dry-run";
 import { runStandaloneIfInvoked } from "../../../framework/cli/run-standalone";
+import { articleSchema } from "../../schema/article.schema";
 
 const deleteArticleContentType: Migration = {
   id: "delete-content-type-article",
@@ -12,10 +12,7 @@ const deleteArticleContentType: Migration = {
 
   async run({ dryRun }) {
     if (dryRun) {
-      return await printDryRunDeleteContentType(
-        CONTENT_TYPES.ARTICLE,
-        articlePreview
-      );
+      return await printDryRunDeleteContentType(articleSchema);
     }
 
     await deleteContentType(CONTENT_TYPES.ARTICLE);
