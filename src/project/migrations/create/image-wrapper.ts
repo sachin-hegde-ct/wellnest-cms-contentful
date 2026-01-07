@@ -26,4 +26,4 @@ export default createImageWrapperContentType;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, createImageWrapperContentType);
+runStandaloneIfInvoked(createImageWrapperContentType);

@@ -27,4 +27,4 @@ export default purgeTestimonials;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, purgeTestimonials);
+runStandaloneIfInvoked(purgeTestimonials);

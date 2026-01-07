@@ -1,7 +1,6 @@
 import { Migration } from "../../../framework/types/migration";
 import { contentTypeExists } from "../../../framework/contentful/content-type-check";
 import { deleteAssetById } from "../../../framework/contentful/delete-asset";
-import { getContentfulContext } from "../../../framework/contentful/environment";
 import { confirm } from "@inquirer/prompts";
 import { CONTENT_TYPES } from "../../config/content-types";
 import { getEntries } from "../../../framework/contentful/get-entries";
@@ -23,7 +22,7 @@ const purgeImageWrappers: Migration = {
 
     if (!exists) {
       console.log(
-        `   ℹ️  Content type '${CONTENT_TYPES.IMAGE_WRAPPER}' does not exist.\n`
+        `   ℹ️  Content type '${CONTENT_TYPES.IMAGE_WRAPPER}' does not exist.\n`,
       );
       return;
     }
@@ -40,8 +39,6 @@ const purgeImageWrappers: Migration = {
         return;
       }
     }
-
-    const { contentfulEnvironment } = await getContentfulContext();
 
     // ------------------------------------------------------
     // Fetch total count once (for progress display)
@@ -76,12 +73,12 @@ const purgeImageWrappers: Migration = {
         if (assetId) assetIds.add(assetId);
 
         console.log(
-          `   🧹 [${processed}/${total}] Deleting ImageWrapper: ${entry.sys.id}`
+          `   🧹 [${processed}/${total}] Deleting ImageWrapper: ${entry.sys.id}`,
         );
 
         if (dryRun) {
           console.log(
-            `      [dry-run] Would delete ImageWrapper ${entry.sys.id}`
+            `      [dry-run] Would delete ImageWrapper ${entry.sys.id}`,
           );
           continue;
         }
@@ -95,7 +92,7 @@ const purgeImageWrappers: Migration = {
     }
 
     console.log(
-      `\n   🧾 Collected ${assetIds.size} assets from ${processed} image wrappers.\n`
+      `\n   🧾 Collected ${assetIds.size} assets from ${processed} image wrappers.\n`,
     );
 
     // ------------------------------------------------------
@@ -104,11 +101,11 @@ const purgeImageWrappers: Migration = {
     let assetIndex = 0;
     const assetTotal = assetIds.size;
 
-    for (const assetId of assetIds) {
+    for (const assetId of Array.from(assetIds)) {
       assetIndex++;
 
       console.log(
-        `   🖼️  [${assetIndex}/${assetTotal}] Deleting asset: ${assetId}`
+        `   🖼️  [${assetIndex}/${assetTotal}] Deleting asset: ${assetId}`,
       );
 
       if (dryRun) {
@@ -120,7 +117,7 @@ const purgeImageWrappers: Migration = {
     }
 
     console.log(
-      dryRun ? "" : `\n🔥 All Image Wrappers and assets purged successfully.\n`
+      dryRun ? "" : `\n🔥 All Image Wrappers and assets purged successfully.\n`,
     );
     console.log("\n" + "-".repeat(60) + "\n");
   },
@@ -131,4 +128,4 @@ export default purgeImageWrappers;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, purgeImageWrappers);
+runStandaloneIfInvoked(purgeImageWrappers);

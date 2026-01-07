@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createEntry } from "../../../framework/contentful/create-entry";
 import { CONTENT_TYPES } from "../../config/content-types";
 
 export async function createTestimonialEntry(
   testimonial: any,
-  relatedProgram: any
+  relatedProgram: any,
 ) {
   const entry = await createEntry(CONTENT_TYPES.TESTIMONIAL, {
     name: { "en-US": testimonial.name },

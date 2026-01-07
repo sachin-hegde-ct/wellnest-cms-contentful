@@ -24,4 +24,4 @@ export default createProgramContentType;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, createProgramContentType);
+runStandaloneIfInvoked(createProgramContentType);

@@ -16,7 +16,7 @@ export function printInfoTable(title: string, rows: Row[]) {
 
   for (const { label, value } of rows) {
     console.log(
-      `│ ${label.padEnd(labelWidth)} : ${value.padEnd(valueWidth)} │`
+      `│ ${label.padEnd(labelWidth)} : ${value.padEnd(valueWidth)} │`,
     );
   }
 

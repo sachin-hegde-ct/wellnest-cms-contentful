@@ -2,7 +2,7 @@ import { getContentfulContext } from "./environment";
 
 export async function createEntry(
   contentType: string,
-  fields: Record<string, any>
+  fields: Record<string, unknown>,
 ) {
   const { contentfulEnvironment } = await getContentfulContext();
 
@@ -11,9 +11,9 @@ export async function createEntry(
   });
 
   console.log(
-    `        📝 Action: Create Entry, Content Type: ${contentType}, Id: ${entry.sys.id}\n`
+    `        📝 Action: Create Entry, Content Type: ${contentType}, Id: ${entry.sys.id}\n`,
   );
-  
+
   await entry.publish();
 
   return entry;

@@ -24,7 +24,7 @@ async function main() {
 
   const migration = migrations.find(
     (m: { kind: string; target?: string }) =>
-      m.kind === kind && m.target === target
+      m.kind === kind && m.target === target,
   );
 
   if (!migration) {

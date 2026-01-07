@@ -26,4 +26,4 @@ export default createCoachContentType;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, createCoachContentType);
+runStandaloneIfInvoked(createCoachContentType);

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { PROGRAM_DATA_DIR } from "../../config/data-dir";
 
 import { createProgramImage } from "./image";
@@ -12,7 +13,7 @@ export async function importPrograms({ dryRun }: { dryRun: boolean }) {
 
   if (!sourcePrograms || sourcePrograms.length === 0) {
     console.log(
-      `\n⚠️  No source programs found at ${PROGRAM_DATA_DIR.SOURCE}\n`
+      `\n⚠️  No source programs found at ${PROGRAM_DATA_DIR.SOURCE}\n`,
     );
     return;
   }
@@ -25,7 +26,7 @@ export async function importPrograms({ dryRun }: { dryRun: boolean }) {
     const program = sourcePrograms[index];
 
     console.log(
-      `\n   📘 [${index + 1}/${sourcePrograms.length}] ${program.title}`
+      `\n   📘 [${index + 1}/${sourcePrograms.length}] ${program.title}`,
     );
 
     /* -------------------------------------------------
@@ -34,9 +35,7 @@ export async function importPrograms({ dryRun }: { dryRun: boolean }) {
     let image: any = null;
 
     if (dryRun) {
-      console.log(
-        `       🖼️  [DRY RUN] Would create ImageWrapper entry`
-      );
+      console.log(`       🖼️  [DRY RUN] Would create ImageWrapper entry`);
     } else {
       image = await createProgramImage(program, index);
       imageMap[program.slug] = {
@@ -62,7 +61,7 @@ export async function importPrograms({ dryRun }: { dryRun: boolean }) {
 
     if (dryRun) {
       console.log(
-        `       📅 [DRY RUN] Would create program sessions and link them`
+        `       📅 [DRY RUN] Would create program sessions and link them`,
       );
     } else {
       const sessions = await createProgramSessions(program);
@@ -79,14 +78,14 @@ export async function importPrograms({ dryRun }: { dryRun: boolean }) {
 
     if (dryRun) {
       console.log(
-        `       📘 [DRY RUN] Would create Program entry linked to image, coach, and sessions`
+        `       📘 [DRY RUN] Would create Program entry linked to image, coach, and sessions`,
       );
     } else {
       programId = await createProgramEntry(
         program,
         image.imageLink,
         coach.coachLink,
-        sessionLink
+        sessionLink,
       );
 
       program.sys = {
@@ -108,13 +107,13 @@ export async function importPrograms({ dryRun }: { dryRun: boolean }) {
     console.log(
       dryRun
         ? `   🟡 Dry run completed for program`
-        : `   ✅ Program imported successfully`
+        : `   ✅ Program imported successfully`,
     );
   }
 
   console.log(
     dryRun
       ? `\n🧪 Dry run completed. No data was written.\n`
-      : `\n🎉 All programs imported successfully.\n`
+      : `\n🎉 All programs imported successfully.\n`,
   );
 }

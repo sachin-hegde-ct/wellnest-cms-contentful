@@ -1,5 +1,6 @@
-import { COACH_DATA_DIR } from "../../config/data-dir";
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
+import { COACH_DATA_DIR } from "../../config/data-dir";
 import { createCoachImage } from "./image";
 import { createCoachSocialLinks } from "./social-links";
 import { createCoachEntry } from "./create-entry";
@@ -23,7 +24,7 @@ export async function importCoaches({ dryRun }: { dryRun: boolean }) {
     const key = coach.slug ?? coach.name;
 
     console.log(
-      `\n    [${index + 1}/${sourceCoaches.length}] 🧑 ${coach.name}`
+      `\n    [${index + 1}/${sourceCoaches.length}] 🧑 ${coach.name}`,
     );
 
     /* -------------------------------------------------
@@ -32,9 +33,7 @@ export async function importCoaches({ dryRun }: { dryRun: boolean }) {
     let image: any = null;
 
     if (dryRun) {
-      console.log(
-        `       🖼️  [DRY RUN] Would create ImageWrapper entry`
-      );
+      console.log(`       🖼️  [DRY RUN] Would create ImageWrapper entry`);
     } else {
       image = await createCoachImage(coach, index);
       imageMap[key] = {
@@ -62,7 +61,7 @@ export async function importCoaches({ dryRun }: { dryRun: boolean }) {
 
     if (dryRun) {
       console.log(
-        `       👤 [DRY RUN] Would create Coach entry linked to image & social links`
+        `       👤 [DRY RUN] Would create Coach entry linked to image & social links`,
       );
     } else {
       entryId = await createCoachEntry(coach, image.image, socialLinksId);
@@ -86,13 +85,13 @@ export async function importCoaches({ dryRun }: { dryRun: boolean }) {
     console.log(
       dryRun
         ? `   🟡 Dry run completed for coach "${coach.name}"`
-        : `\n   ✅ Coach "${coach.name}" imported successfully\n`
+        : `\n   ✅ Coach "${coach.name}" imported successfully\n`,
     );
   }
 
   console.log(
     dryRun
       ? `\n🧪 Dry run completed. No data was written.\n`
-      : `\n🎉 All coaches imported successfully.\n`
+      : `\n🎉 All coaches imported successfully.\n`,
   );
 }

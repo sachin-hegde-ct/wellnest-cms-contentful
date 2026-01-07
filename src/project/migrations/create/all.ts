@@ -32,7 +32,7 @@ const createAllContentTypes: Migration = {
     }
 
     console.log(
-      dryRun ? "" : `\n\n🎉 All content types created successfully.\n`
+      dryRun ? "" : `\n\n🎉 All content types created successfully.\n`,
     );
     console.log("=".repeat(60) + "\n");
   },
@@ -43,4 +43,4 @@ export default createAllContentTypes;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, createAllContentTypes);
+runStandaloneIfInvoked(createAllContentTypes);

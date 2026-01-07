@@ -21,7 +21,9 @@ const purgeArticles: Migration = {
     const exists = await contentTypeExists(CONTENT_TYPES.ARTICLE);
 
     if (!exists) {
-      console.log(`ℹ️  Content type '${CONTENT_TYPES.ARTICLE}' does not exist. 👉 Nothing to purge.`);
+      console.log(
+        `ℹ️  Content type '${CONTENT_TYPES.ARTICLE}' does not exist. 👉 Nothing to purge.`,
+      );
       return;
     }
 
@@ -47,7 +49,9 @@ const purgeArticles: Migration = {
 
     await purgeEntriesByContentType(CONTENT_TYPES.ARTICLE, dryRun);
 
-    console.log(dryRun ? "" : `\n🔥 All Article entries purged successfully.\n`);
+    console.log(
+      dryRun ? "" : `\n🔥 All Article entries purged successfully.\n`,
+    );
     console.log("\n" + "-".repeat(60) + "\n");
   },
 };
@@ -57,4 +61,4 @@ export default purgeArticles;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, purgeArticles);
+runStandaloneIfInvoked(purgeArticles);

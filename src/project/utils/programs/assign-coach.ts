@@ -1,9 +1,6 @@
-import { getContentfulContext } from "../../../framework/contentful/environment";
 import { getEntries } from "../../../framework/contentful/get-entries";
 
 export async function assignRandomProgramCoach() {
-  const { contentfulEnvironment } = await getContentfulContext();
-
   const meta = await getEntries({
     content_type: "coach",
     limit: 0,

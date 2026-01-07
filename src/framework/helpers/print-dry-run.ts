@@ -1,13 +1,11 @@
 import { contentTypeExists } from "../contentful/content-type-check";
-import { getContentfulContext } from "../contentful/environment";
 import { getEntries } from "../contentful/get-entries";
 import { printContentTypePreview } from "../schema/print-preview";
-import { ContentTypePreview } from "../schema/schema-types";
 import { ContentTypeSchema } from "../types/content-type";
 
 export async function printDryRunCreateContentType(
   schema: ContentTypeSchema,
-  { validationSpacer = 50 }: { validationSpacer?: number } = {}
+  { validationSpacer = 50 }: { validationSpacer?: number } = {},
 ) {
   console.log("\n" + "-".repeat(60) + "\n");
   console.log(`\n🧱 Create → Content Type: ${schema.id}\n`);
@@ -16,7 +14,7 @@ export async function printDryRunCreateContentType(
 
   if (exists) {
     console.log(
-      `ℹ️  Content type '${schema.id}' already exists. Skipping create.\n`
+      `ℹ️  Content type '${schema.id}' already exists. Skipping create.\n`,
     );
     console.log("\n" + "-".repeat(60) + "\n");
     return;
@@ -37,10 +35,8 @@ export async function printDryRunCreateContentType(
 
 export async function printDryRunDeleteContentType(
   schema: ContentTypeSchema,
-  { validationSpacer = 50 }: { validationSpacer?: number } = {}
+  { validationSpacer = 50 }: { validationSpacer?: number } = {},
 ) {
-  const { contentfulEnvironment } = await getContentfulContext();
-
   console.log("\n" + "-".repeat(60) + "\n");
   console.log(`\n🗑️  Delete → Content Type: ${schema.id}\n`);
 
@@ -48,7 +44,7 @@ export async function printDryRunDeleteContentType(
 
   if (!exists) {
     console.log(
-      `\nℹ️  Content type '${schema.id}' does not exist. Skipping delete.\n`
+      `\nℹ️  Content type '${schema.id}' does not exist. Skipping delete.\n`,
     );
     console.log("\n" + "-".repeat(60) + "\n");
     return;

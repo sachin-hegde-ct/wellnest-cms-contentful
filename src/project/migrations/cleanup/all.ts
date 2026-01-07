@@ -35,4 +35,4 @@ export default cleanupAllEntries;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, cleanupAllEntries);
+runStandaloneIfInvoked(cleanupAllEntries);

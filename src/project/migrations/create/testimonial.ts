@@ -24,4 +24,4 @@ export default createTestimonialContentType;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, createTestimonialContentType);
+runStandaloneIfInvoked(createTestimonialContentType);

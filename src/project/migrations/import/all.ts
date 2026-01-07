@@ -35,4 +35,4 @@ export default importAllEntries;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, importAllEntries);
+runStandaloneIfInvoked(importAllEntries);

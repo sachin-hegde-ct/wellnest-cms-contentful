@@ -18,7 +18,7 @@ const importTestimonialsMigration: Migration = {
 
     if (!exists) {
       console.log(
-        `ℹ️  Content type '${CONTENT_TYPES.TESTIMONIAL}' does not exist.\n`
+        `ℹ️  Content type '${CONTENT_TYPES.TESTIMONIAL}' does not exist.\n`,
       );
       return;
     }
@@ -38,4 +38,4 @@ export default importTestimonialsMigration;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, importTestimonialsMigration);
+runStandaloneIfInvoked(importTestimonialsMigration);

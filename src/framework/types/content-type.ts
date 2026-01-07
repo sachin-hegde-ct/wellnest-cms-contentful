@@ -31,8 +31,9 @@ export interface ContentTypeField {
   disabled?: boolean;
   omitted?: boolean;
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   validations?: any[];
-  defaultValue?: Record<string, any>;
+  defaultValue?: Record<string, unknown>;
 
   linkType?: LinkType;
   items?: {

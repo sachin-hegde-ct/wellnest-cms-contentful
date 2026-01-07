@@ -17,7 +17,7 @@ export async function createContentType(schema: ContentTypeSchema) {
 
   if (exists) {
     console.log(
-      `ℹ️  Content type '${schema.id}' already exists. Skipping create.\n`
+      `ℹ️  Content type '${schema.id}' already exists. Skipping create.\n`,
     );
     console.log("\n" + "-".repeat(60) + "\n");
     return;
@@ -33,7 +33,7 @@ export async function createContentType(schema: ContentTypeSchema) {
       description: schema.description,
       displayField: schema.displayField,
       fields: schema.fields.map(buildField),
-    }
+    },
   );
 
   await contentType.publish();
@@ -42,12 +42,12 @@ export async function createContentType(schema: ContentTypeSchema) {
   const editorInterfaces = await contentfulEnvironment.getEditorInterfaces();
 
   const editorInterface = editorInterfaces.items.find(
-    (ei) => ei.sys.contentType.sys.id === contentType.sys.id
+    (ei) => ei.sys.contentType.sys.id === contentType.sys.id,
   );
 
   if (!editorInterface) {
     throw new Error(
-      `EditorInterface not found for content type "${contentType.sys.id}"`
+      `EditorInterface not found for content type "${contentType.sys.id}"`,
     );
   }
 
@@ -59,7 +59,7 @@ export async function createContentType(schema: ContentTypeSchema) {
     const editor = FIELD_EDITORS[field.editor];
 
     const existing = editorInterface.controls.find(
-      (c) => c.fieldId === field.id
+      (c) => c.fieldId === field.id,
     );
 
     if (existing) {

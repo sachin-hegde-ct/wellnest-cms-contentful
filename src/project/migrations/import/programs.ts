@@ -18,7 +18,7 @@ const importProgramsMigration: Migration = {
 
     if (!exists) {
       console.log(
-        `   ℹ️  Content type '${CONTENT_TYPES.PROGRAM}' does not exist.\n`
+        `   ℹ️  Content type '${CONTENT_TYPES.PROGRAM}' does not exist.\n`,
       );
       return;
     }
@@ -38,4 +38,4 @@ export default importProgramsMigration;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, importProgramsMigration);
+runStandaloneIfInvoked(importProgramsMigration);

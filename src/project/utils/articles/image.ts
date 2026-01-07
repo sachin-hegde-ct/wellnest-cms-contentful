@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { createEntry } from "../../../framework/contentful/create-entry";
 import { uploadBufferAsAsset } from "../../../framework/contentful/upload-asset";
 import { CONTENT_TYPES } from "../../config/content-types";
-
 
 export async function createArticleImage(article: any, index: number) {
   const imgUrl = `https://picsum.photos/seed/${index}/800/600`;
@@ -13,7 +14,7 @@ export async function createArticleImage(article: any, index: number) {
     buffer,
     `${article.slug}.jpg`,
     "image/jpeg",
-    `Article Image: ${article.title}`
+    `Article Image: ${article.title}`,
   );
 
   const imageWrapper = await createEntry(CONTENT_TYPES.IMAGE_WRAPPER, {

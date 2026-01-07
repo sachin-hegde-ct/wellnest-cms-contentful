@@ -18,7 +18,7 @@ const purgeSocialLinks: Migration = {
 
     if (!exists) {
       console.log(
-        `   ℹ️  Content type '${CONTENT_TYPES.SOCIAL_LINKS}' does not exist.\n`
+        `   ℹ️  Content type '${CONTENT_TYPES.SOCIAL_LINKS}' does not exist.\n`,
       );
       return;
     }
@@ -39,7 +39,7 @@ const purgeSocialLinks: Migration = {
     await purgeEntriesByContentType(CONTENT_TYPES.SOCIAL_LINKS, dryRun);
 
     console.log(
-      dryRun ? "" : `\n🔥 All Social Links entries purged successfully.\n`
+      dryRun ? "" : `\n🔥 All Social Links entries purged successfully.\n`,
     );
     console.log("\n" + "-".repeat(60) + "\n");
   },
@@ -50,4 +50,4 @@ export default purgeSocialLinks;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, purgeSocialLinks);
+runStandaloneIfInvoked(purgeSocialLinks);

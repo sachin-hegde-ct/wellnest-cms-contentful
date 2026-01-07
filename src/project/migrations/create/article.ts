@@ -24,4 +24,4 @@ export default createArticleContentType;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, createArticleContentType);
+runStandaloneIfInvoked(createArticleContentType);

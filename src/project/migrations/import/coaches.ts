@@ -18,7 +18,7 @@ const importCoachesMigration: Migration = {
 
     if (!exists) {
       console.log(
-        `ℹ️  Content type '${CONTENT_TYPES.COACH}' does not exist.\n`
+        `ℹ️  Content type '${CONTENT_TYPES.COACH}' does not exist.\n`,
       );
       return;
     }
@@ -38,4 +38,4 @@ export default importCoachesMigration;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, importCoachesMigration);
+runStandaloneIfInvoked(importCoachesMigration);

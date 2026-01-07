@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { uploadBufferAsAsset } from "../../../framework/contentful/upload-asset";
 import { createEntry } from "../../../framework/contentful/create-entry";
 import { CONTENT_TYPES } from "../../config/content-types";
@@ -12,7 +13,7 @@ export async function createCoachImage(coach: any, index: number) {
     buffer,
     `${coach.slug}.jpg`,
     "image/jpeg",
-    `Coach Image: ${coach.name}`
+    `Coach Image: ${coach.name}`,
   );
 
   const imageWrapper = await createEntry(CONTENT_TYPES.IMAGE_WRAPPER, {

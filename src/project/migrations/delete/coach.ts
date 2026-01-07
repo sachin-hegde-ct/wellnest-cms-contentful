@@ -26,4 +26,4 @@ export default deleteCoachContentType;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, deleteCoachContentType);
+runStandaloneIfInvoked(deleteCoachContentType);

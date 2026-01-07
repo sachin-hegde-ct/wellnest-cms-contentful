@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { Migration } from "../../../framework/types/migration";
 import { contentTypeExists } from "../../../framework/contentful/content-type-check";
 import { deleteEntryById } from "../../../framework/contentful/delete-entry";
@@ -23,7 +25,9 @@ const cleanupTestimonials: Migration = {
     const exists = await contentTypeExists(CONTENT_TYPES.TESTIMONIAL);
 
     if (!exists) {
-      console.log(`ℹ️  Content type '${CONTENT_TYPES.TESTIMONIAL}' does not exist.\n`);
+      console.log(
+        `ℹ️  Content type '${CONTENT_TYPES.TESTIMONIAL}' does not exist.\n`,
+      );
       console.log("\n" + "-".repeat(60) + "\n");
       return;
     }
@@ -50,13 +54,13 @@ const cleanupTestimonials: Migration = {
       console.log(
         `\n [${index + 1}/${total}] 🧹 Removing Testimonial: ${
           testimonial.name
-        }\n`
+        }\n`,
       );
 
       if (testimonial?.sys?.id) {
         if (dryRun) {
           console.log(
-            `   [dry-run] Would delete Testimonial ${testimonial.sys.id}`
+            `   [dry-run] Would delete Testimonial ${testimonial.sys.id}`,
           );
         } else {
           await deleteEntryById(testimonial.sys.id);
@@ -72,7 +76,9 @@ const cleanupTestimonials: Migration = {
     await deleteDataFile(TESTIMONIAL_DATA_DIR.PROGRAM_MAP, dryRun);
 
     if (dryRun) {
-      console.log(`\n\n🧪 Dry run summary: ${total} testimonial(s) would be deleted.\n`);
+      console.log(
+        `\n\n🧪 Dry run summary: ${total} testimonial(s) would be deleted.\n`,
+      );
     } else {
       console.log(`\n\n🎉 Cleanup completed for Testimonials.\n`);
     }
@@ -86,4 +92,4 @@ export default cleanupTestimonials;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, cleanupTestimonials);
+runStandaloneIfInvoked(cleanupTestimonials);

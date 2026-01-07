@@ -18,7 +18,7 @@ export async function askOperation(migrations: Migration[]): Promise<string> {
 
 export async function askTarget(
   migrations: Migration[],
-  kind: string
+  kind: string,
 ): Promise<string> {
   const targets = migrations
     .filter((m) => m.kind === kind)
@@ -32,7 +32,7 @@ export async function askTarget(
       value: t,
     })),
     loop: true,
-    pageSize: 10
+    pageSize: 10,
   });
 }
 
@@ -45,11 +45,17 @@ export async function askDryRun(): Promise<boolean> {
 
 function formatKind(kind: string) {
   switch (kind) {
-    case 'migrate': return "🪄  Migrate Everything";
-    case 'create': return "🧱 Create Content Type";
-    case 'import': return "🚀 Import Entries";
-    case 'cleanup': return "🧤 Cleanup Imported Entries";
-    case 'delete': return "🗑️  Delete Content Type";
-    case 'purge': return "🔥 Purge entries (dangerous)";
-  };
+    case "migrate":
+      return "🪄  Migrate Everything";
+    case "create":
+      return "🧱 Create Content Type";
+    case "import":
+      return "🚀 Import Entries";
+    case "cleanup":
+      return "🧤 Cleanup Imported Entries";
+    case "delete":
+      return "🗑️  Delete Content Type";
+    case "purge":
+      return "🔥 Purge entries (dangerous)";
+  }
 }

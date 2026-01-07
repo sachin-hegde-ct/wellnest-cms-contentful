@@ -1,5 +1,4 @@
 import "dotenv/config";
-import { fileURLToPath } from "url";
 import { Migration } from "../types/migration";
 
 /**
@@ -23,21 +22,14 @@ function resolveDryRun(): boolean {
 }
 
 /**
- * Detect if current file is executed directly via tsx/node
- */
-function isDirectExecution(metaUrl: string): boolean {
-  return process.argv[1] === fileURLToPath(metaUrl);
-}
-
-/**
  * Enables standalone execution of a migration file.
  * Handles:
  * - dotenv loading
  * - dry-run resolution
  * - error handling
  */
-export function runStandaloneIfInvoked(metaUrl: string, migration: Migration) {
-  if (!isDirectExecution(metaUrl)) return;
+export function runStandaloneIfInvoked(migration: Migration) {
+  if (require.main !== module) return;
 
   (async () => {
     const dryRun = resolveDryRun();

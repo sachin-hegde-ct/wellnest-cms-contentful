@@ -7,17 +7,18 @@ export async function deleteEntryById(id: string) {
 
   try {
     const entry = await contentfulEnvironment.getEntry(id);
-    
+
     await unPublishEntry(entry);
 
     await entry.delete();
     console.log(`        🗑️   Action: Delete Entry, Id: ${entry.sys.id}\n`);
-  } catch (err: any) {
+  } catch (err: unknown) {
     if (isNotFoundError(err)) {
       console.log(`     ⚠️  Entry not found, skipped: ${id}\n`);
       return;
     }
 
-    console.log(`     ❌ Failed to delete entry ${id}: ${err.message}\n`);
+    const errorMessage = err instanceof Error ? err.message : String(err);
+    console.log(`     ❌ Failed to delete entry ${id}: ${errorMessage}\n`);
   }
 }

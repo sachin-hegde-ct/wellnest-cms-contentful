@@ -4,33 +4,32 @@ This repository provides a **structured, safe, and repeatable migration framewor
 It is designed to separate generic migration infrastructure from project-specific CMS logic, enabling predictable and auditable content operations across environments.
 
 ## Core Concepts
+
 1. Framework vs Project
 
-    The migration system is split into two clear layers:
+   The migration system is split into two clear layers:
+   - **Framework** – Reusable, project-agnostic building blocks for Contentful operations and CLI execution
 
-    - **Framework** – Reusable, project-agnostic building blocks for Contentful operations and CLI execution
+   - **Project** – Project-specific migration logic defining what to migrate and how
 
-    - **Project** – Project-specific migration logic defining what to migrate and how
-
-    This separation ensures:
-
-    - Safety and consistency across environments
-    - Easy onboarding for new contributors
-    - Reusability of migration infrastructure across projects
+   This separation ensures:
+   - Safety and consistency across environments
+   - Easy onboarding for new contributors
+   - Reusability of migration infrastructure across projects
 
 2. Working Model (How Migrations Flow)
 
-    Migrations follow a clear, intentional lifecycle:
+   Migrations follow a clear, intentional lifecycle:
 
-    ```
-    create   → define content types (schema)
-    import   → populate entries and upload assets
-    cleanup  → delete imported entries and their associated assets
-    purge    → remove all entries of a content type (global reset)
-    delete   → remove content type schema itself
-    ```
+   ```
+   create   → define content types (schema)
+   import   → populate entries and upload assets
+   cleanup  → delete imported entries and their associated assets
+   purge    → remove all entries of a content type (global reset)
+   delete   → remove content type schema itself
+   ```
 
-    Each step is isolated, explicit, and dry-run aware.
+   Each step is isolated, explicit, and dry-run aware.
 
 ## Folder Structure
 
@@ -86,6 +85,7 @@ Migrations can be executed in two ways:
 Both approaches use the same underlying framework and safety guarantees.
 
 ### 1. Running Targeted Commands
+
 All available migration commands are defined in `package.json` and can be executed directly using `npm run`.
 
 Each command performs a **single, explicit action**, making it ideal for automation or repeatable workflows.
@@ -93,9 +93,11 @@ Each command performs a **single, explicit action**, making it ideal for automat
 ```
 npm run create:content-type:article
 ```
+
 Creates the Article content type in Contentful (skips if it already exists).
 
 Other examples include:
+
 ```
 npm run import:entry:articles
 npm run cleanup:entry:articles
@@ -104,15 +106,19 @@ npm run delete:content-type:article
 ```
 
 ### 2. Running Interactive CLI Mode
+
 For guided execution, run:
+
 ```
 npm run migrate
 ```
+
 This launches an interactive CLI that walks you through the migration process step by step.
 
 #### Step 1: Select Operation
 
 You will be prompted to choose the type of operation:
+
 ```
 🪄  Migrate Everything
 🧱  Create Content Type
@@ -132,6 +138,7 @@ coach
 program
 testimonial
 ```
+
 Available targets are derived from the migration registry, ensuring the CLI always reflects the actual migrations present in the project.
 
 #### Step 3: Dry-Run Selection
@@ -141,6 +148,7 @@ You will be asked whether to run the migration in dry-run mode:
 ```
 Run in dry-run mode? (Yes/No)
 ```
+
 - Yes → No data is written; the CLI shows what would happen
 - No → The migration is executed for real
 

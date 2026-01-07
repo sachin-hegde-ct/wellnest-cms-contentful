@@ -15,7 +15,7 @@ type UploadOptions = {
 async function waitForAssetProcessing(
   env: Environment,
   assetId: string,
-  { retries = 20, delayMs = 1500 }: UploadOptions = {}
+  { retries = 20, delayMs = 1500 }: UploadOptions = {},
 ): Promise<Asset> {
   for (let attempt = 1; attempt <= retries; attempt++) {
     const asset = await env.getAsset(assetId);
@@ -29,7 +29,7 @@ async function waitForAssetProcessing(
   }
 
   throw new Error(
-    `Asset '${assetId}' did not finish processing after ${retries} attempts.`
+    `Asset '${assetId}' did not finish processing after ${retries} attempts.`,
   );
 }
 
@@ -42,7 +42,7 @@ export async function uploadBufferAsAsset(
   fileName: string,
   contentType: string,
   title: string,
-  options?: UploadOptions
+  options?: UploadOptions,
 ): Promise<Asset> {
   const { contentfulEnvironment } = await getContentfulContext();
 
@@ -86,7 +86,7 @@ export async function uploadBufferAsAsset(
   const processed = await waitForAssetProcessing(
     contentfulEnvironment,
     asset.sys.id,
-    options
+    options,
   );
 
   console.log(`        🖼️  Action: Upload Asset, Id: ${processed.sys.id}\n`);

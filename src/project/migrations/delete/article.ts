@@ -24,4 +24,4 @@ export default deleteArticleContentType;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, deleteArticleContentType);
+runStandaloneIfInvoked(deleteArticleContentType);

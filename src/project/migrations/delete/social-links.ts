@@ -24,4 +24,4 @@ export default deleteSocialLinksContentType;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, deleteSocialLinksContentType);
+runStandaloneIfInvoked(deleteSocialLinksContentType);

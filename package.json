@@ -2,13 +2,15 @@
   "name": "wellnest-cms-contentful",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "type": "commonjs",
   "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "format": "prettier --check .",
+    "format:fix": "prettier --write .",
+    "prepare": "husky",
     "migrate": "tsx src/framework/cli/index.ts",
-
     "migrate:all": "tsx src/migrations/all.ts",
-
     "delete:content-type:all": "tsx src/project/migrations/delete/all.ts",
     "delete:content-type:article": "tsx src/project/migrations/delete/article.ts",
     "delete:content-type:coach": "tsx src/project/migrations/delete/coach.ts",
@@ -17,7 +19,6 @@
     "delete:content-type:program": "tsx src/project/migrations/delete/program.ts",
     "delete:content-type:social-links": "tsx src/project/migrations/delete/social-links.ts",
     "delete:content-type:testimonial": "tsx src/project/migrations/delete/testimonial.ts",
-
     "create:content-type:all": "tsx src/project/migrations/create/all.ts",
     "create:content-type:article": "tsx src/project/migrations/create/article.ts",
     "create:content-type:coach": "tsx src/project/migrations/create/coach.ts",
@@ -26,24 +27,30 @@
     "create:content-type:program": "tsx src/project/migrations/create/program.ts",
     "create:content-type:social-links": "tsx src/project/migrations/create/social-links.ts",
     "create:content-type:testimonial": "tsx src/project/migrations/create/testimonial.ts",
-    
     "import:entry:all": "tsx src/project/migrations/import/all.ts",
     "import:entry:coaches": "tsx src/project/migrations/import/coaches.ts",
     "import:entry:articles": "tsx src/project/migrations/import/articles.ts",
     "import:entry:programs": "tsx src/project/migrations/import/programs.ts",
     "import:entry:testimonials": "tsx src/project/migrations/import/testimonials.ts",
-    
     "cleanup:entry:all": "tsx src/project/migrations/cleanup/all.ts",
     "cleanup:entry:articles": "tsx src/project/migrations/cleanup/articles.ts",
     "cleanup:entry:coaches": "tsx src/project/migrations/cleanup/coaches.ts",
     "cleanup:entry:programs": "tsx src/project/migrations/cleanup/programs.ts",
     "cleanup:entry:testimonials": "tsx src/project/migrations/cleanup/testimonials.ts",
-    
     "purge:entry:all": "tsx src/project/migrations/purge/all.ts",
     "purge:entry:articles": "tsx src/project/migrations/purge/articles.ts",
     "purge:entry:coaches": "tsx src/project/migrations/purge/coaches.ts",
     "purge:entry:programs": "tsx src/project/migrations/purge/programs.ts",
     "purge:entry:testimonials": "tsx src/project/migrations/purge/testimonials.ts"
+  },
+  "lint-staged": {
+    "**/*.ts": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "**/*.{json,md}": [
+      "prettier --write"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -52,9 +59,17 @@
     "@inquirer/core": "^11.1.0",
     "@inquirer/prompts": "^8.1.0",
     "@types/node": "^25.0.3",
+    "@typescript-eslint/eslint-plugin": "^8.52.0",
+    "@typescript-eslint/parser": "^8.52.0",
     "contentful-management": "^11.67.0",
     "dotenv": "^17.2.3",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.7.4",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.52.0"
   }
 }

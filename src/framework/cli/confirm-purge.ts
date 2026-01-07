@@ -6,7 +6,7 @@ import { confirm } from "@inquirer/prompts";
  */
 export async function confirmPurge(
   label: string,
-  dryRun: boolean
+  dryRun: boolean,
 ): Promise<void> {
   if (dryRun) return;
 

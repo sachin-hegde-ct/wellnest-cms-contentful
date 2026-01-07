@@ -4,7 +4,7 @@ import { isProdEnvironment, isDestructiveAction } from "../core/prod-guard";
 export async function enforceProdSafety(
   environment: string,
   action: string,
-  dryRun: boolean
+  dryRun: boolean,
 ) {
   if (!isProdEnvironment(environment)) return;
 

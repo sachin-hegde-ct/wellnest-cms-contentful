@@ -24,4 +24,4 @@ export default deleteProgramContentType;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, deleteProgramContentType);
+runStandaloneIfInvoked(deleteProgramContentType);

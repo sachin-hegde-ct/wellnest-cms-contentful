@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { uploadBufferAsAsset } from "../../../framework/contentful/upload-asset";
 import { createEntry } from "../../../framework/contentful/create-entry";
 import { CONTENT_TYPES } from "../../config/content-types";
@@ -12,7 +13,7 @@ export async function createProgramImage(program: any, index: number) {
     buffer,
     `${program.slug}.jpg`,
     "image/jpeg",
-    `Program Image: ${program.title}`
+    `Program Image: ${program.title}`,
   );
 
   const imageWrapper = await createEntry(CONTENT_TYPES.IMAGE_WRAPPER, {

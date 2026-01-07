@@ -1,4 +1,7 @@
-import type { ContentTypeField, ContentTypeSchema } from "../../framework/types/content-type";
+import type {
+  ContentTypeField,
+  ContentTypeSchema,
+} from "../../framework/types/content-type";
 import { URL_PATTERN } from "../config/regex";
 import { CONTENT_TYPES } from "../config/content-types";
 

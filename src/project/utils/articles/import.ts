@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { createArticleImage } from "./image";
 import { assignRandomArticleAuthor } from "./author";
 import { createArticleEntry } from "./create-entry";
@@ -10,7 +12,7 @@ export async function importArticles({ dryRun }: { dryRun: boolean }) {
 
   if (!sourceArticles || sourceArticles.length === 0) {
     console.log(
-      `\n⚠️  No source articles found at ${ARTICLE_DATA_DIR.SOURCE}\n`
+      `\n⚠️  No source articles found at ${ARTICLE_DATA_DIR.SOURCE}\n`,
     );
     return;
   }
@@ -23,7 +25,7 @@ export async function importArticles({ dryRun }: { dryRun: boolean }) {
     const article = sourceArticles[index];
 
     console.log(
-      `\n   📰 [${index + 1}/${sourceArticles.length}] ${article.title}`
+      `\n   📰 [${index + 1}/${sourceArticles.length}] ${article.title}`,
     );
 
     /* -------------------------------------------------
@@ -32,9 +34,7 @@ export async function importArticles({ dryRun }: { dryRun: boolean }) {
     let image: any = null;
 
     if (dryRun) {
-      console.log(
-        `      🖼️  [DRY RUN] Would create ImageWrapper entry`
-      );
+      console.log(`      🖼️  [DRY RUN] Would create ImageWrapper entry`);
     } else {
       image = await createArticleImage(article, index);
       imageRefs[article.slug] = {
@@ -62,13 +62,13 @@ export async function importArticles({ dryRun }: { dryRun: boolean }) {
 
     if (dryRun) {
       console.log(
-        `      📝 [DRY RUN] Would create Article entry linked to image and author`
+        `      📝 [DRY RUN] Would create Article entry linked to image and author`,
       );
     } else {
       entryId = await createArticleEntry(
         article,
         image.coverImage,
-        author.author
+        author.author,
       );
 
       article.sys = {
@@ -89,13 +89,13 @@ export async function importArticles({ dryRun }: { dryRun: boolean }) {
     console.log(
       dryRun
         ? `\n   🟡 Dry run completed for article`
-        : `\n   ✅ Article imported successfully`
+        : `\n   ✅ Article imported successfully`,
     );
   }
 
   console.log(
     dryRun
       ? `\n🧪 Dry run completed. No data was written.\n`
-      : `\n🎉 All articles imported successfully.\n`
+      : `\n🎉 All articles imported successfully.\n`,
   );
 }

@@ -19,7 +19,7 @@ const PURGE_ORDER = [
   purgeCoaches,
   purgeSocialLinks,
   purgeImageWrappers,
-  purgeAssets
+  purgeAssets,
 ];
 
 const purgeAllEntries: Migration = {
@@ -38,7 +38,7 @@ const purgeAllEntries: Migration = {
     console.log(
       dryRun
         ? `\n🧪 Dry run completed. No data was written.\n`
-        : `\n🔥 All entries purged successfully.\n`
+        : `\n🔥 All entries purged successfully.\n`,
     );
     console.log("\n" + "=".repeat(60) + "\n");
   },
@@ -49,4 +49,4 @@ export default purgeAllEntries;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, purgeAllEntries);
+runStandaloneIfInvoked(purgeAllEntries);

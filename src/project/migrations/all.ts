@@ -37,8 +37,9 @@ const migrateAll: Migration = {
 
   async run({ dryRun }) {
     console.log("\n" + "=".repeat(60) + "\n");
-    console.log(`\n🏗️  MIGRATION → ALL\n` +
-        `This will delete existing data and recreate everything.\n`
+    console.log(
+      `\n🏗️  MIGRATION → ALL\n` +
+        `This will delete existing data and recreate everything.\n`,
     );
 
     /* ------------------------------------------------------

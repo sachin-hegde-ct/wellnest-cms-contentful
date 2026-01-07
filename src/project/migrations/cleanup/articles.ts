@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { Migration } from "../../../framework/types/migration";
 import { contentTypeExists } from "../../../framework/contentful/content-type-check";
 import { deleteEntryById } from "../../../framework/contentful/delete-entry";
@@ -25,7 +27,7 @@ const cleanupArticles: Migration = {
 
     if (!exists) {
       console.log(
-        `ℹ️  Content type '${CONTENT_TYPES.ARTICLE}' does not exist.\n`
+        `ℹ️  Content type '${CONTENT_TYPES.ARTICLE}' does not exist.\n`,
       );
       console.log("\n" + "-".repeat(60) + "\n");
       return;
@@ -42,7 +44,7 @@ const cleanupArticles: Migration = {
     }
 
     const imagesMap = await readDataFile<Record<string, any>>(
-      ARTICLE_DATA_DIR.IMAGES_MAP
+      ARTICLE_DATA_DIR.IMAGES_MAP,
     );
 
     // ------------------------------------------------------
@@ -57,7 +59,7 @@ const cleanupArticles: Migration = {
       const imageInfo = imagesMap?.[slug];
 
       console.log(
-        `\n [${index + 1}/${total}] 🧹 Removing Article: ${article.title}\n`
+        `\n [${index + 1}/${total}] 🧹 Removing Article: ${article.title}\n`,
       );
 
       // -------------------------
@@ -77,7 +79,7 @@ const cleanupArticles: Migration = {
       if (imageInfo?.imageWrapperId) {
         if (dryRun) {
           console.log(
-            `   [dry-run] Would delete ImageWrapper ${imageInfo.imageWrapperId}`
+            `   [dry-run] Would delete ImageWrapper ${imageInfo.imageWrapperId}`,
           );
         } else {
           await deleteEntryById(imageInfo.imageWrapperId);
@@ -105,7 +107,7 @@ const cleanupArticles: Migration = {
 
     if (dryRun) {
       console.log(
-        `\n\n🧪 Dry run summary: ${total} article(s) would be deleted.\n`
+        `\n\n🧪 Dry run summary: ${total} article(s) would be deleted.\n`,
       );
     } else {
       console.log(`\n\n🎉 Cleanup completed for Articles.\n`);
@@ -119,4 +121,4 @@ export default cleanupArticles;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, cleanupArticles);
+runStandaloneIfInvoked(cleanupArticles);

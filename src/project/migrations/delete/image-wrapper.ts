@@ -24,4 +24,4 @@ export default deleteImageWrapperContentType;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, deleteImageWrapperContentType);
+runStandaloneIfInvoked(deleteImageWrapperContentType);

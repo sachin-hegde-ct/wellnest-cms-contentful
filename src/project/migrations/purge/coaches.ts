@@ -18,7 +18,7 @@ const purgeCoaches: Migration = {
 
     if (!exists) {
       console.log(
-        `   ℹ️  Content type '${CONTENT_TYPES.COACH}' does not exist.\n`
+        `   ℹ️  Content type '${CONTENT_TYPES.COACH}' does not exist.\n`,
       );
       return;
     }
@@ -37,7 +37,7 @@ const purgeCoaches: Migration = {
 
     await purgeEntriesByContentType(CONTENT_TYPES.COACH, dryRun);
 
-    console.log(dryRun ? "" :`\n🔥 All Coach entries purged successfully.\n`);
+    console.log(dryRun ? "" : `\n🔥 All Coach entries purged successfully.\n`);
     console.log("\n" + "-".repeat(60) + "\n");
   },
 };
@@ -47,4 +47,4 @@ export default purgeCoaches;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, purgeCoaches);
+runStandaloneIfInvoked(purgeCoaches);

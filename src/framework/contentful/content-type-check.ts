@@ -2,17 +2,17 @@ import { isNotFoundError } from "../helpers/error";
 import { getContentfulContext } from "./environment";
 
 export async function contentTypeExists(
-  contentTypeId: string
+  contentTypeId: string,
 ): Promise<boolean> {
   const { contentfulEnvironment } = await getContentfulContext();
 
   try {
     await contentfulEnvironment.getContentType(contentTypeId);
     return true;
-  } catch (err: any) {
+  } catch (err) {
     if (isNotFoundError(err)) {
       return false;
     }
-      throw err;
+    throw err;
   }
 }

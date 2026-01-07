@@ -34,7 +34,7 @@ const deleteAllContentTypes: Migration = {
     }
 
     console.log(
-      dryRun ? "" : `\n\n🎉 All content types deleted successfully.\n`
+      dryRun ? "" : `\n\n🎉 All content types deleted successfully.\n`,
     );
     console.log("=".repeat(60) + "\n");
   },
@@ -45,4 +45,4 @@ export default deleteAllContentTypes;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, deleteAllContentTypes);
+runStandaloneIfInvoked(deleteAllContentTypes);

@@ -61,7 +61,7 @@ export const migrations: Migration[] = [
   importCoaches,
   importPrograms,
   importTestimonials,
-  
+
   // cleanup entries
   cleanupAllEntries,
   cleanupArticles,

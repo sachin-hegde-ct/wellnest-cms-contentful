@@ -24,4 +24,4 @@ export default createProgramSessionContentType;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, createProgramSessionContentType);
+runStandaloneIfInvoked(createProgramSessionContentType);

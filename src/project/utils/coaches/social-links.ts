@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { createEntry } from "../../../framework/contentful/create-entry";
 import { CONTENT_TYPES } from "../../config/content-types";
 

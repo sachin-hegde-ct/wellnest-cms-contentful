@@ -5,7 +5,7 @@ type SDKField = ContentTypeProps["fields"][number];
 
 export const FIELD_EDITORS: Record<
   FieldEditor,
-  { widgetId: string; settings?: Record<string, any> }
+  { widgetId: string; settings?: Record<string, string | number | boolean> }
 > = {
   singleLine: { widgetId: "singleLine" },
   multipleLine: { widgetId: "multipleLine" },

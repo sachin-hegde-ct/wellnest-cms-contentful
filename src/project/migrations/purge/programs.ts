@@ -18,7 +18,7 @@ const purgePrograms: Migration = {
 
     if (!exists) {
       console.log(
-        `   ℹ️  Content type '${CONTENT_TYPES.PROGRAM}' does not exist.\n`
+        `   ℹ️  Content type '${CONTENT_TYPES.PROGRAM}' does not exist.\n`,
       );
       return;
     }
@@ -38,7 +38,7 @@ const purgePrograms: Migration = {
     await purgeEntriesByContentType(CONTENT_TYPES.PROGRAM, dryRun);
 
     console.log(
-      dryRun ? "" : `\n🔥 All Program entries purged successfully.\n`
+      dryRun ? "" : `\n🔥 All Program entries purged successfully.\n`,
     );
     console.log("\n" + "-".repeat(60) + "\n");
   },
@@ -49,4 +49,4 @@ export default purgePrograms;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, purgePrograms);
+runStandaloneIfInvoked(purgePrograms);

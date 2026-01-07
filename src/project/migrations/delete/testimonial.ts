@@ -24,4 +24,4 @@ export default deleteTestimonialContentType;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, deleteTestimonialContentType);
+runStandaloneIfInvoked(deleteTestimonialContentType);

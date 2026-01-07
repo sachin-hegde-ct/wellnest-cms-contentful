@@ -22,7 +22,7 @@ export async function deleteContentType(contentTypeId: string) {
 
   if (!exists) {
     console.log(
-      `\nℹ️  Content type '${contentTypeId}' does not exist. Skipping delete.\n`
+      `\nℹ️  Content type '${contentTypeId}' does not exist. Skipping delete.\n`,
     );
     console.log("\n" + "-".repeat(60) + "\n");
     return;
@@ -56,8 +56,9 @@ export async function deleteContentType(contentTypeId: string) {
         await unPublishEntry(entry);
         console.log(`        🗑️   Action: Delete Entry, Id: ${id}\n`);
         await entry.delete();
-      } catch (err: any) {
-        console.log(`        ❌ Failed to delete ${id}: ${err.message}`);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : String(err);
+        console.log(`        ❌ Failed to delete ${id}: ${message}`);
       }
     }
 
@@ -81,9 +82,8 @@ export async function deleteContentType(contentTypeId: string) {
   console.log(`\n    ⏳ Removing schema '${contentTypeId}'…\n`);
 
   try {
-    const contentType = await contentfulEnvironment.getContentType(
-      contentTypeId
-    );
+    const contentType =
+      await contentfulEnvironment.getContentType(contentTypeId);
 
     // Content types must be unpublished before deletion
     if (contentType.sys.publishedVersion) {
@@ -94,14 +94,15 @@ export async function deleteContentType(contentTypeId: string) {
 
     console.log(`🎉 Content type '${contentTypeId}' deleted successfully.\n`);
     console.log("\n" + "-".repeat(60) + "\n");
-  } catch (err: any) {
+  } catch (err: unknown) {
     if (isNotFoundError(err)) {
       console.log(`\nℹ️  Content type '${contentTypeId}' already deleted.\n`);
       console.log("\n" + "-".repeat(60) + "\n");
       return;
     }
 
-    console.log(`    ❌ Failed to delete schema: ${err.message}\n`);
+    const message = err instanceof Error ? err.message : String(err);
+    console.log(`    ❌ Failed to delete schema: ${message}\n`);
     console.log("\n" + "-".repeat(60) + "\n");
   }
 }

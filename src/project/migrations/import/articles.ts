@@ -18,7 +18,7 @@ const importArticlesMigration: Migration = {
 
     if (!exists) {
       console.log(
-        `ℹ️  Content type '${CONTENT_TYPES.ARTICLE}' does not exist.\n`
+        `ℹ️  Content type '${CONTENT_TYPES.ARTICLE}' does not exist.\n`,
       );
       return;
     }
@@ -38,4 +38,4 @@ export default importArticlesMigration;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, importArticlesMigration);
+runStandaloneIfInvoked(importArticlesMigration);

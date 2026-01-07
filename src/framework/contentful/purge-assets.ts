@@ -70,14 +70,17 @@ export async function purgeAllAssets(dryRun: boolean) {
       }
 
       await asset.delete();
-    } catch (err: any) {
-      console.log(`      ❌ Failed to delete asset ${assetId}: ${err.message}`);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      console.log(
+        `      ❌ Failed to delete asset ${assetId}: ${errorMessage}`,
+      );
     }
   }
 
   console.log(
     `\n  ✅ Asset purge completed. Deleted ${deleted} asset${
       deleted === 1 ? "" : "s"
-    }.\n`
+    }.\n`,
   );
 }

@@ -45,10 +45,10 @@ function renderNotes(field: ContentTypeField): string {
         field.validations?.some((v) => "linkContentType" in v)
           ? ` (${field.validations
               .filter((v) => "linkContentType" in v)
-              .flatMap((v: any) => v.linkContentType)
+              .flatMap((v) => v.linkContentType)
               .join(", ")})`
           : ""
-      }`
+      }`,
     );
   }
 
@@ -56,7 +56,7 @@ function renderNotes(field: ContentTypeField): string {
     notes.push(
       `array of ${field.items.type}${
         field.items.linkType ? ` (${field.items.linkType})` : ""
-      }`
+      }`,
     );
   }
 
@@ -74,15 +74,15 @@ function renderNotes(field: ContentTypeField): string {
  * ------------------------------------------------- */
 export function printContentTypePreview(
   schema: ContentTypeSchema,
-  options: { validationSpacer?: number } = {}
+  options: { validationSpacer?: number } = {},
 ) {
   const spacer = Math.max(options.validationSpacer ?? 40, 40);
 
   console.log(`\n   ${"-".repeat(70 + spacer)}`);
   console.log(
     `    ${"Field".padEnd(18)} ${"Type".padEnd(14)} ${"Required".padEnd(
-      10
-    )} ${"Validations".padEnd(spacer)} Notes`
+      10,
+    )} ${"Validations".padEnd(spacer)} Notes`,
   );
   console.log(`   ${"-".repeat(70 + spacer)}`);
 
@@ -91,7 +91,7 @@ export function printContentTypePreview(
       `    ${f.name.padEnd(18)} ${f.type.padEnd(14)} ${(f.required
         ? "Yes"
         : "No"
-      ).padEnd(10)} ${renderValidations(f).padEnd(spacer)} ${renderNotes(f)}`
+      ).padEnd(10)} ${renderValidations(f).padEnd(spacer)} ${renderNotes(f)}`,
     );
   });
 

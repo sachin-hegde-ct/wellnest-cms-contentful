@@ -37,4 +37,4 @@ export default purgeAssets;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, purgeAssets);
+runStandaloneIfInvoked(purgeAssets);

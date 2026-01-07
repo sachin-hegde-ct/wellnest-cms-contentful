@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { Migration } from "../../../framework/types/migration";
 import { contentTypeExists } from "../../../framework/contentful/content-type-check";
 import { deleteEntryById } from "../../../framework/contentful/delete-entry";
@@ -24,7 +26,9 @@ const cleanupCoaches: Migration = {
     const exists = await contentTypeExists(CONTENT_TYPES.COACH);
 
     if (!exists) {
-      console.log(`ℹ️  Content type '${CONTENT_TYPES.COACH}' does not exist.\n`);
+      console.log(
+        `ℹ️  Content type '${CONTENT_TYPES.COACH}' does not exist.\n`,
+      );
       console.log("\n" + "-".repeat(60) + "\n");
       return;
     }
@@ -40,11 +44,11 @@ const cleanupCoaches: Migration = {
     }
 
     const imageMap = await readDataFile<Record<string, any>>(
-      COACH_DATA_DIR.IMAGES_MAP
+      COACH_DATA_DIR.IMAGES_MAP,
     );
 
     const socialMap = await readDataFile<Record<string, any>>(
-      COACH_DATA_DIR.SOCIAL_LINKS_MAP
+      COACH_DATA_DIR.SOCIAL_LINKS_MAP,
     );
 
     // ------------------------------------------------------
@@ -61,7 +65,7 @@ const cleanupCoaches: Migration = {
       const socialId = socialMap?.[coachKey];
 
       console.log(
-        `\n    [${index + 1}/${total}] 🧹 Removing Coach: ${coach.name}\n`
+        `\n    [${index + 1}/${total}] 🧹 Removing Coach: ${coach.name}\n`,
       );
 
       // -------------------------
@@ -92,7 +96,7 @@ const cleanupCoaches: Migration = {
       if (imageInfo?.imageWrapperId) {
         if (dryRun) {
           console.log(
-            `   [dry-run] Would delete ImageWrapper ${imageInfo.imageWrapperId}`
+            `   [dry-run] Would delete ImageWrapper ${imageInfo.imageWrapperId}`,
           );
         } else {
           await deleteEntryById(imageInfo.imageWrapperId);
@@ -121,7 +125,7 @@ const cleanupCoaches: Migration = {
 
     if (dryRun) {
       console.log(
-        `\n\n🧪 Dry run summary: ${total} coach(es) would be deleted.\n`
+        `\n\n🧪 Dry run summary: ${total} coach(es) would be deleted.\n`,
       );
     } else {
       console.log(`\n\n🎉 Cleanup completed for Coaches.\n`);
@@ -135,4 +139,4 @@ export default cleanupCoaches;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, cleanupCoaches);
+runStandaloneIfInvoked(cleanupCoaches);

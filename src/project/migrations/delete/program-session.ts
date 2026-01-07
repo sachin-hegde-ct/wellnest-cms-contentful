@@ -24,4 +24,4 @@ export default deleteProgramSessionContentType;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, deleteProgramSessionContentType);
+runStandaloneIfInvoked(deleteProgramSessionContentType);

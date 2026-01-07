@@ -8,7 +8,7 @@ import { unPublishEntry } from "./unpublish-entry";
  */
 export async function purgeEntriesByContentType(
   contentType: string,
-  dryRun: boolean
+  dryRun: boolean,
 ) {
   const { contentfulEnvironment } = await getContentfulContext();
 
@@ -63,7 +63,7 @@ export async function purgeEntriesByContentType(
 
     if (dryRun) {
       console.log(
-        `        [dry-run] Would unpublish (if needed) and delete ${entryId}\n`
+        `        [dry-run] Would unpublish (if needed) and delete ${entryId}\n`,
       );
       continue;
     }
@@ -74,8 +74,9 @@ export async function purgeEntriesByContentType(
       await unPublishEntry(entry);
 
       await entry.delete();
-    } catch (err: any) {
-      console.log(`      ❌ Failed to delete ${entryId}: ${err.message}`);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : String(err);
+      console.log(`      ❌ Failed to delete ${entryId}: ${errorMessage}`);
     }
   }
 
@@ -87,13 +88,13 @@ export async function purgeEntriesByContentType(
     console.log(
       `\n🧪 Dry run completed. ${processed} entr${
         processed === 1 ? "y" : "ies"
-      } would have been purged.\n`
+      } would have been purged.\n`,
     );
   } else {
     console.log(
       `\n✅ Purge completed. Deleted ${processed} entr${
         processed === 1 ? "y" : "ies"
-      }.\n`
+      }.\n`,
     );
   }
 }

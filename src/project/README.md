@@ -1,4 +1,5 @@
 ## Folder structure
+
 The project folder contains **Project-specific CMS migration logic** built on top of the reusable framework layer. All business rules, content structure decisions, and data workflows live here, while execution and safety concerns are handled by the framework.
 
 ```
@@ -60,6 +61,7 @@ This file imports and registers all migration definitions so the CLI can:
 - Execute the correct migration based on user input
 
 ## Migration File Contract
+
 Every migration file must export a single Migration object with the following structure:
 
 ```
@@ -73,6 +75,7 @@ export interface Migration {
 ```
 
 Example
+
 ```
 const createArticleContentType: Migration = {
   id: "create-content-type-article",

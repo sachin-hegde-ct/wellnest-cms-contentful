@@ -24,4 +24,4 @@ export default createSocialLinksContentType;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, createSocialLinksContentType);
+runStandaloneIfInvoked(createSocialLinksContentType);

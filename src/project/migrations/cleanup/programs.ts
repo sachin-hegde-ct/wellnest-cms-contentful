@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import { Migration } from "../../../framework/types/migration";
 import { contentTypeExists } from "../../../framework/contentful/content-type-check";
 import { deleteEntryById } from "../../../framework/contentful/delete-entry";
@@ -24,7 +26,9 @@ const cleanupPrograms: Migration = {
     const exists = await contentTypeExists(CONTENT_TYPES.PROGRAM);
 
     if (!exists) {
-      console.log(`ℹ️  Content type '${CONTENT_TYPES.PROGRAM}' does not exist.\n`);
+      console.log(
+        `ℹ️  Content type '${CONTENT_TYPES.PROGRAM}' does not exist.\n`,
+      );
       console.log("\n" + "-".repeat(60) + "\n");
       return;
     }
@@ -40,11 +44,11 @@ const cleanupPrograms: Migration = {
     }
 
     const imageMap = await readDataFile<Record<string, any>>(
-      PROGRAM_DATA_DIR.IMAGES_MAP
+      PROGRAM_DATA_DIR.IMAGES_MAP,
     );
 
     const sessionMap = await readDataFile<Record<string, string[]>>(
-      PROGRAM_DATA_DIR.SESSIONS_MAP
+      PROGRAM_DATA_DIR.SESSIONS_MAP,
     );
 
     // ------------------------------------------------------
@@ -61,7 +65,7 @@ const cleanupPrograms: Migration = {
       const sessions = sessionMap?.[programKey] ?? [];
 
       console.log(
-        `\n [${index + 1}/${total}] 🧹 Removing Program: ${program.title}\n`
+        `\n [${index + 1}/${total}] 🧹 Removing Program: ${program.title}\n`,
       );
 
       // -------------------------
@@ -92,7 +96,7 @@ const cleanupPrograms: Migration = {
       if (imageInfo?.imageWrapperId) {
         if (dryRun) {
           console.log(
-            `   [dry-run] Would delete ImageWrapper ${imageInfo.imageWrapperId}`
+            `   [dry-run] Would delete ImageWrapper ${imageInfo.imageWrapperId}`,
           );
         } else {
           await deleteEntryById(imageInfo.imageWrapperId);
@@ -120,7 +124,9 @@ const cleanupPrograms: Migration = {
     await deleteDataFile(PROGRAM_DATA_DIR.SESSIONS_MAP, dryRun);
 
     if (dryRun) {
-      console.log(`\n\n🧪 Dry run summary: ${total} program(s) would be deleted.\n`);
+      console.log(
+        `\n\n🧪 Dry run summary: ${total} program(s) would be deleted.\n`,
+      );
     } else {
       console.log(`\n\n🎉 Cleanup completed for Programs.\n`);
     }
@@ -133,4 +139,4 @@ export default cleanupPrograms;
 /* ------------------------------------------------------------------ */
 /* Standalone execution                                               */
 /* ------------------------------------------------------------------ */
-runStandaloneIfInvoked(import.meta.url, cleanupPrograms);
+runStandaloneIfInvoked(cleanupPrograms);
