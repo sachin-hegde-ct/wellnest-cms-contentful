@@ -11,7 +11,7 @@ export async function deleteEntryById(id: string) {
     await unPublishEntry(entry);
 
     await entry.delete();
-    console.log(`        ✅  Action: Delete Entry, Id: ${entry.sys.id}`);
+    console.log(`        🗑️   Action: Delete Entry, Id: ${entry.sys.id}\n`);
   } catch (err: any) {
     if (isNotFoundError(err)) {
       console.log(`     ⚠️  Entry not found, skipped: ${id}\n`);

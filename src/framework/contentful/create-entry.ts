@@ -11,7 +11,7 @@ export async function createEntry(
   });
 
   console.log(
-    `\n        📝 Action: Create Entry, Content Type: ${contentType}, Id: ${entry.sys.id}`
+    `        📝 Action: Create Entry, Content Type: ${contentType}, Id: ${entry.sys.id}\n`
   );
   
   await entry.publish();

@@ -1,4 +1,3 @@
-import { runMigration } from "contentful-migration";
 import { getContentfulContext } from "./environment";
 import { confirm } from "@inquirer/prompts";
 import { isNotFoundError } from "../helpers/error";
@@ -14,11 +13,10 @@ export async function deleteContentType(contentTypeId: string) {
   console.log("\n" + "-".repeat(60) + "\n");
   console.log(`\n🗑️  Delete → Content Type: ${contentTypeId}\n`);
 
-  const { contentfulSpace, contentfulEnvironment } =
-    await getContentfulContext();
+  const { contentfulEnvironment } = await getContentfulContext();
 
   // ------------------------------------------------------------------
-  // ✅ 0. CHECK IF CONTENT TYPE EXISTS
+  // 0️⃣ CHECK IF CONTENT TYPE EXISTS
   // ------------------------------------------------------------------
   const exists = await contentTypeExists(contentTypeId);
 
@@ -31,7 +29,7 @@ export async function deleteContentType(contentTypeId: string) {
   }
 
   // ------------------------------------------------------------------
-  // 1. FETCH & DELETE ENTRIES
+  // 1️⃣ FETCH & DELETE ENTRIES
   // ------------------------------------------------------------------
 
   const entries = await getEntries({ content_type: contentTypeId });
@@ -56,8 +54,7 @@ export async function deleteContentType(contentTypeId: string) {
 
       try {
         await unPublishEntry(entry);
-
-        console.log(`        • Delete: ${id}`);
+        console.log(`        🗑️   Action: Delete Entry, Id: ${id}\n`); 
         await entry.delete();
       } catch (err: any) {
         console.log(`        ❌ Failed to delete ${id}: ${err.message}`);
@@ -68,7 +65,7 @@ export async function deleteContentType(contentTypeId: string) {
   }
 
   // ------------------------------------------------------------------
-  // 2. DELETE CONTENT TYPE SCHEMA
+  // 2️⃣ DELETE CONTENT TYPE SCHEMA
   // ------------------------------------------------------------------
 
   const confirmedSchema = await confirm({
@@ -81,17 +78,19 @@ export async function deleteContentType(contentTypeId: string) {
     return;
   }
 
-  console.log(`    ⏳ Removing schema '${contentTypeId}'…\n`);
+  console.log(`\n    ⏳ Removing schema '${contentTypeId}'…\n`);
 
   try {
-    await runMigration({
-      spaceId: contentfulSpace.sys.id,
-      environmentId: contentfulEnvironment.sys.id,
-      yes: true,
-      migrationFunction: (migration) => {
-        migration.deleteContentType(contentTypeId);
-      },
-    });
+    const contentType = await contentfulEnvironment.getContentType(
+      contentTypeId
+    );
+
+    // Content types must be unpublished before deletion
+    if (contentType.sys.publishedVersion) {
+      await contentType.unpublish();
+    }
+
+    await contentType.delete();
 
     console.log(
       `    🎉 Content type '${contentTypeId}' deleted successfully.\n`

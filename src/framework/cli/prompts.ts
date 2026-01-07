@@ -6,6 +6,7 @@ export async function askOperation(migrations: Migration[]): Promise<string> {
 
   return select({
     message: "Select operation",
+    default: kinds[0],
     choices: kinds.map((k) => ({
       name: formatKind(k),
       value: k,
@@ -25,6 +26,7 @@ export async function askTarget(
 
   return select({
     message: "Select target",
+    default: targets[0],
     choices: targets.map((t) => ({
       name: t,
       value: t,

@@ -17,13 +17,13 @@ export async function deleteAssetById(id: string) {
     }
 
     await asset.delete();
-    console.log(`        🗑️   Action: Delete Asset, Id: ${asset.sys.id}`);
+    console.log(`        🗑️   Action: Delete Asset, Id: ${asset.sys.id}\n`);
   } catch (err: any) {
     if (isNotFoundError(err)) {
-      console.log(`     ⚠️  Skipped non-existing asset: ${id}`);
+      console.log(`     ⚠️  Skipped non-existing asset: ${id}\n`);
       return;
     }
 
-    console.log(`     ❌ Failed to delete asset ${id}: ${err.message}`);
+    console.log(`     ❌ Failed to delete asset ${id}: ${err.message}\n`);
   }
 }

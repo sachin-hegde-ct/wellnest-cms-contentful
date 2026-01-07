@@ -89,7 +89,7 @@ export async function uploadBufferAsAsset(
     options
   );
 
-  console.log(`\n        🖼️  Action: Upload Asset, Id: ${processed.sys.id}`);
+  console.log(`        🖼️  Action: Upload Asset, Id: ${processed.sys.id}\n`);
 
   // --------------------------------------------------
   // 4. Publish
